@@ -1,0 +1,11 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"editor.fontSize": 10,
+	"editor.quickSuggestionsDelay": 1,
+	"editor.formatOnType": true,
+	"editor.renderWhitespace": true,
+	"git.enabled": false,
+	"editor.referenceInfos": false
+	
+	
+}
