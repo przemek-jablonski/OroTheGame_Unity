@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof (CharacterController))]
-public class PawnControllerScript : MonoBehaviour {
+public class PawnController : MonoBehaviour {
 
     public int rotationSpeed = 500;
     public int walkSpeed = 5;
@@ -48,11 +48,11 @@ public class PawnControllerScript : MonoBehaviour {
     }
     
     private void MovePawn() {
-        
-        movementVector *= walkSpeed;
         movementVector += gravityVector;
-        if (Mathf.Abs(movementVector.x) > 0 && Mathf.Abs(movementVector.y) >0 ) movementVector *= 0.7f;
-        
+        if (Mathf.Abs(movementVector.x) > 0 && Mathf.Abs(movementVector.y) > 0)
+            movementVector *= 0.7f;
+
+        movementVector *= walkSpeed;
         characterController.Move(movementVector * Time.deltaTime);
     }
     
