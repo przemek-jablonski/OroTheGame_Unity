@@ -7,11 +7,16 @@ public class PawnControllerScript : MonoBehaviour {
     public int rotationSpeed = 500;
     public int walkSpeed = 5;
     public int runSpeed = 8;
+    public GunScript gunScript;
 
     private CharacterController     characterController;
+    private Camera                  camera;
+    
     private Vector3                 movementVector;
     private Quaternion              targetRotation;
     private Transform               transformRef;
+    
+    private Vector3 mousePosition;
 
 
     //gravity 'system'
@@ -24,26 +29,38 @@ public class PawnControllerScript : MonoBehaviour {
         movementVector = new Vector3(0, 0, 0);
         transformRef = this.transform;
         gravityVector = Vector3.up * -9.81f;
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
         movementVector = new Vector3(Input.GetAxisRaw("MoveHorizontal"), 0, Input.GetAxisRaw("MoveVertical"));
+        
+        if(Input.GetButtonDown("Shoot"))
+            gunScript.Shoot();
 
         LookPawn();
         MovePawn();
-        /*
-                movementVector += gravity;
-                movementVector *= walkSpeed;
-                characterController.Move(movementVector);
-        */
-
+       //   TestMovement();
+          
     }
+    
+    private void TestMovement() {
+        /*
+       mousePosition = Input.mousePosition;
+       mousePosition = camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y,
+                                        camera.transform.position.y - transformRef.position.y));
+                                        
+           */
+       
+    }
+    
+    
     
     private void LookPawn() {
         if(movementVector != Vector3.zero) {
             targetRotation = Quaternion.LookRotation(movementVector);
-            transform.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
+            transformRef.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
         }
     }
     
