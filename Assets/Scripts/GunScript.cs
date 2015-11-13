@@ -17,6 +17,8 @@ public class GunScript : MonoBehaviour {
 	//tracer enabled by design on ALL weapons (might want to change that)
 	private LineRenderer tracer;
 	public AudioSource  gunSound;
+	public Rigidbody shell;
+	public Transform shellEjectionPoint;
 
 	public void Start(){
 		raycastRealDistance = raycastDistance;
@@ -32,9 +34,13 @@ public class GunScript : MonoBehaviour {
 			else raycastRealDistance = raycastDistance;
 		
 		gunSound.Play();
-		Debug.DrawRay(raycast.origin, raycast.direction * raycastDistance, raycastColor, raycastDuration);
-		
 		StartCoroutine("RenderTracer");
+		//Debug.DrawRay(raycast.origin, raycast.direction * raycastDistance, raycastColor, raycastDuration);
+		
+		Rigidbody newShell = Instantiate(shell, shellEjectionPoint.position, Quaternion.identity) as Rigidbody;
+		newShell.AddForce(shellEjectionPoint.forward * Random.Range(100f, 275f) + bulletSpawnPosition.forward * Random.Range(-2f, 3f));
+								
+		
 		
 	}
 	
