@@ -25,6 +25,7 @@ public class PawnControllerScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Application.targetFrameRate = 30;
         characterController = GetComponent<CharacterController>();
         movementVector = new Vector3(0, 0, 0);
         transformRef = this.transform;

@@ -38,7 +38,7 @@ public class GunScript : MonoBehaviour {
 		//Debug.DrawRay(raycast.origin, raycast.direction * raycastDistance, raycastColor, raycastDuration);
 		
 		Rigidbody newShell = Instantiate(shell, shellEjectionPoint.position, Quaternion.identity) as Rigidbody;
-		newShell.AddForce(shellEjectionPoint.forward * Random.Range(100f, 275f) + bulletSpawnPosition.forward * Random.Range(-2f, 3f));
+		newShell.AddForce(shellEjectionPoint.forward * Random.Range(90f, 290f) + bulletSpawnPosition.forward * Random.Range(-5f, 8f));
 								
 		
 		
