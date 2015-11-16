@@ -3,6 +3,8 @@ using System.Collections;
 
 [RequireComponent (typeof (Rigidbody))]
 public class ShellScript : MonoBehaviour {
+	
+	public float sleepTimer = 1f;
 
 	void OnTriggerEnter(Collider collider){
 		
@@ -12,7 +14,7 @@ public class ShellScript : MonoBehaviour {
 	}
 	
 	IEnumerator PutShellToSleep() {
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(sleepTimer);
 		GetComponent<Rigidbody>().Sleep();
 	}
 	

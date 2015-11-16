@@ -18,7 +18,9 @@ public class GunScript : MonoBehaviour {
 	private LineRenderer tracer;
 	public AudioSource  gunSound;
 	public Rigidbody shell;
+	public Rigidbody bullet;
 	public Transform shellEjectionPoint;
+	public Transform rifleEndPoint;
 
 	public void Start(){
 		raycastRealDistance = raycastDistance;
@@ -39,7 +41,9 @@ public class GunScript : MonoBehaviour {
 		
 		Rigidbody newShell = Instantiate(shell, shellEjectionPoint.position, Quaternion.identity) as Rigidbody;
 		newShell.AddForce(shellEjectionPoint.forward * Random.Range(90f, 290f) + bulletSpawnPosition.forward * Random.Range(-5f, 8f));
-								
+		
+		Rigidbody shellFX = Instantiate(bullet, rifleEndPoint.position, Quaternion.identity) as Rigidbody;
+		shellFX.AddForce(rifleEndPoint.forward * 1000f);
 		
 		
 	}
