@@ -51,7 +51,7 @@ public class GunScript : MonoBehaviour {
 	
 	IEnumerator DestroyBullet(Rigidbody destroyable){
 		yield return new WaitForSeconds(bulletFadeTime);
-		destroyable.Sleep();
+		Destroy(destroyable);
 		
 	}
 
