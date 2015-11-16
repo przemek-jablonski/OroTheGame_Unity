@@ -3,25 +3,27 @@ using System.Collections;
 
 
 public class CamFollowScript : MonoBehaviour {
-	
-	
-    public Transform 	targetActor;
-    public int 			cameraFollowSpeed = 3;
-    public int 			zPositionBack = -3;
 
-    private Vector3 	cameraTargetPosition;
-    private Transform 	cameraActualTransform;
+    public Transform   targetActor;
+    public float       camFollowSpeed = 5;
+
+    private Vector3     camInitialPosition;
+    private Vector3     camTargetPosition;
+    private Transform 	transformRef;
 
     // Use this for initialization
     void Start () {
-        cameraActualTransform = transform;
-        //targetActor ought to be initialized in editor
+        transformRef = this.transform;
+        camInitialPosition = transformRef.position;
+        camTargetPosition = camInitialPosition;
+        
         
     }
 	
 	// Update is called once per frame
 	void Update () {
-        cameraTargetPosition = new Vector3(targetActor.position.x, cameraActualTransform.position.y, targetActor.position.z + zPositionBack);
-        cameraActualTransform.position = Vector3.Lerp(cameraActualTransform.position, cameraTargetPosition, Time.deltaTime * cameraFollowSpeed);
+        camTargetPosition.x = targetActor.position.x + camInitialPosition.x;
+        camTargetPosition.z = targetActor.position.z + camInitialPosition.z;
+        transformRef.position = Vector3.Lerp(transformRef.position, camTargetPosition, Time.deltaTime * camFollowSpeed);
 	}
 }
