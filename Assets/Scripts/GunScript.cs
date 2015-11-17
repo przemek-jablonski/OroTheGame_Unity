@@ -9,7 +9,7 @@ public class GunScript : MonoBehaviour {
 	public float		raycastDuration = 0.5f;
 	
 	public float 		bulletSpeed = 100f;
-	public float		bulletFadeTime = 5;
+	public float		bulletFadeTime = 1;
 	
 	
 	private Ray 		raycast;
@@ -43,15 +43,24 @@ public class GunScript : MonoBehaviour {
 		Rigidbody newShell = Instantiate(shell, shellEjectionPoint.position, Quaternion.identity) as Rigidbody;
 		newShell.AddForce(shellEjectionPoint.forward * Random.Range(90f, 290f) + bulletSpawnPoint.forward * Random.Range(-15f, 10f));
 		
-		Rigidbody newBullet = Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation) as Rigidbody;
-		newBullet.AddForce(bulletSpawnPoint.forward * 75f);
-		StartCoroutine("DestroyBullet", newBullet);
+		//Rigidbody newBullet = Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation) as Rigidbody;
+		//newBullet.AddForce(bulletSpawnPoint.forward * 75f);
+		//StartCoroutine("DestroyBullet", newBullet);
 		
+		bulletSpawnController(Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation) as Rigidbody);
+		
+	}
+	
+	private void bulletSpawnController(Rigidbody bullet) {
+		
+		bullet.AddForce(bulletSpawnPoint.forward * (bulletSpeed + Random.Range(-5,5)) + new Vector3(Random.Range(-2, 2), Random.Range(-2,2), 0));
+		StartCoroutine("DestroyBullet", bullet);
+	
 	}
 	
 	IEnumerator DestroyBullet(Rigidbody destroyable){
 		yield return new WaitForSeconds(bulletFadeTime);
-		Destroy(destroyable);
+		Destroy(destroyable.gameObject);
 		
 	}
 

@@ -15,7 +15,7 @@ public class ShellScript : MonoBehaviour {
 	
 	IEnumerator PutShellToSleep() {
 		yield return new WaitForSeconds(sleepTimer);
-		GetComponent<Rigidbody>().Sleep();
+		Destroy(GetComponent<Rigidbody>());
 	}
 	
 }
