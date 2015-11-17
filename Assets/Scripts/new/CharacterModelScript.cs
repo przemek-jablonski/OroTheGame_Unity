@@ -1,28 +1,34 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /*
-ModelViewController Design System:
-	MODEL LAYER.
-	(receives raw input from Controller and translates it
-	into character logic)
+ModelViewController Design System: MODEL LAYER.
+	(receives raw input from Controller and translates it into character logic)
 */
 [RequireComponent (typeof (CharacterController))]
+[RequireComponent (typeof (WeaponScript))]
 public class CharacterModelScript : MonoBehaviour {
 
-	public float		walkingSpeed = 5;
-	public float 		runningSpeed = 7;
+	public float			walkingSpeed = 5;
+	public float 			runningSpeed = 7;
+	public float			rotationSpeed = 450;
 
 	private CharacterController characterController;
+	private WeaponScript	weaponScript;
+	private Transform		transformRef;
 	
-	private Vector3 	movementVector;
-	private Vector3		gravityVector;
+	private Vector3 		movementVector;
+	private Vector3			gravityVector;
+	private Quaternion  	characterTargetRotation;
 
 	//constructor	
 	public void Start () {
 		characterController = GetComponent<CharacterController>();
+		weaponScript = GetComponentInChildren<WeaponScript>();
+		transformRef = this.transform;
+		
 		movementVector = Vector3.zero;
 		gravityVector = Vector3.up * -9.81f;
+		characterTargetRotation = Quaternion.identity;
 	}
 	
 	//frame update
@@ -44,7 +50,6 @@ public class CharacterModelScript : MonoBehaviour {
 		- Translates input value into character desired position 
 	*/
 	public void Move(float inputX, float inputZ) {
-		Debug.Log("inputX: " + inputX + ", inputZ: " + inputZ);
 		movementVector.x = inputX;
 		movementVector.z = inputZ;
 		movementVector.y = gravityVector.y;
@@ -66,6 +71,8 @@ public class CharacterModelScript : MonoBehaviour {
 	*/
 	public void Run(float inputX, float inputZ) {
 		
+		//make some crazy ass clever solution, so that code in Move()
+		//and in Run() isnt almost exactly the same, goddamnit
 		movementVector.x = inputX;
 		movementVector.z = inputZ;
 		movementVector.y = gravityVector.y;
@@ -86,7 +93,13 @@ public class CharacterModelScript : MonoBehaviour {
 		- OR receive gamepad's right stick movement
 		- Translate it to characters rotation
 	*/
-	public void Look(){
+	public void Look(float inputX, float inputZ) {
+		
+		movementVector.x = inputX;
+		movementVector.y = 0;
+		movementVector.z = inputZ;
+		characterTargetRotation = Quaternion.LookRotation(movementVector);
+		transformRef.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transformRef.eulerAngles.y, characterTargetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
 		
 	}
 	
@@ -94,12 +107,12 @@ public class CharacterModelScript : MonoBehaviour {
 	/*
 	Shoot():
 		- Force character to shoot his gun
-		- Receive shootButton boolean value
+		- Receive no data
 		- OR receive gamepad's right trigger force
 		- Force gun to shoot missle
 	*/
 	public void Shoot() {
-		
+		weaponScript.Shoot();
 	}
 	
 	
@@ -110,7 +123,7 @@ public class CharacterModelScript : MonoBehaviour {
 		- Reload active gun
 	*/
 	public void Reload() {
-		
+		//to do soon?
 	}
 	
 	
@@ -121,7 +134,7 @@ public class CharacterModelScript : MonoBehaviour {
 		- Switch gun to next/previous gun in queue
 	*/
 	public void SwitchGun() {
-		
+		//to do in near future
 	}
 	
 	
@@ -132,7 +145,7 @@ public class CharacterModelScript : MonoBehaviour {
 		- Pause gameplay (maybe?) and switch to inventory screen
 	*/
 	public void PeekInventory() {
-		
+		//to do next iteration
 	}
 	
 	
@@ -143,7 +156,12 @@ public class CharacterModelScript : MonoBehaviour {
 		- Open screen informing of travel cost and whether you agree
 	*/
 	public void FastTravelToCity() {
-		
+		//to do next iteration
 	}
 	
 }
+
+
+
+
+

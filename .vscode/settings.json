@@ -7,6 +7,7 @@
 	"editor.renderWhitespace": true,
 	"editor.referenceInfos": false,
 	"git.enabled": false,
+	"editor.scrollBeyondLastLine": false,
 	
 	"files.exclude":
 	{

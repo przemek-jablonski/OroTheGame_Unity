@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /*
-ModelViewController Design System:
-	CONTROLLER LAYER.
-	(understanding player's input and sending it to model layer properly)
+ModelViewController Design System: CONTROLLER LAYER.
+	(decoding player's input and sending it to model layer properly)
 */
 public class CharacterControllerScript : MonoBehaviour {
 
@@ -16,7 +14,6 @@ public class CharacterControllerScript : MonoBehaviour {
 	private bool					anyAxisTouched;
 	private HandleAxisDelegate		HandleAxis;
 	
-	delegate void HandleAxisDelegate();
 
 	//constructor
 	public void Start() {
@@ -46,7 +43,11 @@ public class CharacterControllerScript : MonoBehaviour {
 	public void Update() {
 		HandleAxis();
 		
-		if(anyAxisTouched) HandleRunButton();
+		if(anyAxisTouched) 
+			HandleRunButton();
+		
+		HandleShootButton();
+		
 		
 		anyAxisTouched = false;
 	}
@@ -56,18 +57,24 @@ public class CharacterControllerScript : MonoBehaviour {
 	//_________________________________________________
 	//CONTROLLER LAYER methods:
 	
+	private void HandleShootButton() {
+		if (Input.GetButton("ShootButton"))
+			characterModelScript.Shoot();
+	}
+	
+	delegate void HandleAxisDelegate();
 	
 	private void HandleAxisKeyboard() {
 		
 		if (Input.GetAxisRaw("KeyboardAxisHorizontal") != 0 || Input.GetAxisRaw("KeyboardAxisVertical") != 0){
 			anyAxisTouched = true;
-			Debug.Log("HandleAxis() as handleaxiskeyboard()");
+			characterModelScript.Look(Input.GetAxisRaw("KeyboardAxisHorizontal"), Input.GetAxisRaw("KeyboardAxisVertical"));
 		}
 	}
 	
 	
 	private void HandleAxisKeyboardMouse() {
-		//to be done
+		//to do really soon
 	}
 	
 	
