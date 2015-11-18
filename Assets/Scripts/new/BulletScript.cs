@@ -2,15 +2,21 @@
 using System.Collections;
 
 public class BulletScript : MonoBehaviour {
-
 	
-	// Use this for initialization
-	void Start () {
+	public float bulletKillTime = 3f;
 	
+	public void Start() {
+		StartCoroutine("DestroyBullet");
 	}
 	
 	public void OnTriggerEnter(Collider collider) {
-		Debug.Log("BULLET: Collision triggered!");
+		Debug.Log("ontriggerenter");
+		Destroy(this.gameObject);
+	}
+	
+	IEnumerator DestroyBullet(){
+		yield return new WaitForSeconds(bulletKillTime);
+		Destroy(this.gameObject);
 	}
 	
 }

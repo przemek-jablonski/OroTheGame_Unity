@@ -4,7 +4,7 @@ using System.Collections;
 
 public class ShellScript : MonoBehaviour {
 	
-	public float sleepTimer = 1f;
+	public float sleepTimer = 2f;
 
 	void OnTriggerEnter(Collider collider){
 		
