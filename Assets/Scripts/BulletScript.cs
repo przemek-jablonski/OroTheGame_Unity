@@ -3,15 +3,18 @@ using System.Collections;
 
 public class BulletScript : MonoBehaviour {
 	
-	public float bulletKillTime = 3f;
+	public float 		bulletKillTime = 3f;
+	public GameObject collisionSplashPrefab;
 	
 	public void Start() {
 		StartCoroutine("DestroyBullet");
 	}
 	
 	public void OnTriggerEnter(Collider collider) {
-		Debug.Log("ontriggerenter");
-		Destroy(this.gameObject);
+		if (collider.tag != "Bullet") {
+			Destroy(this.gameObject);
+			Instantiate(collisionSplashPrefab, this.transform.position, Quaternion.identity);
+		}
 	}
 	
 	IEnumerator DestroyBullet(){
