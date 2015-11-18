@@ -8,9 +8,9 @@ ModelViewController Design System: MODEL LAYER.
 [RequireComponent (typeof (WeaponScript))]
 public class CharacterModelScript : MonoBehaviour {
 
-	public byte				walkingSpeed = 5;
+	public float			walkingSpeed = 4.5f;
 	public byte 			runningSpeed = 7;
-	public ushort			rotationSpeed = 450;
+	public ushort			rotationSpeed = 500;
 
 	private CharacterController characterController;
 	private WeaponScript	weaponScript;
