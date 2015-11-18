@@ -16,6 +16,9 @@ public class WeaponScript : MonoBehaviour {
 	public float		bulletShellSleepTime = 1.2f;
 	public ushort 		roundsPerMinute = 120;
 	
+	private bool		actualShot = false;
+	private bool 		previousShot = false;	
+	
 	
 	public void Shoot() {
 		
@@ -46,14 +49,15 @@ public class WeaponScript : MonoBehaviour {
 	
 	
 	private void BulletShellSpawn(GameObject bulletShell) {
-		
+		//creating bullet force as multiplying actual shellEjectionPoint forward vector
+		//by shellSpeed value. Added Random.Ranges for little more random behaviour 
 		bulletShell.GetComponent<Rigidbody>().AddForce(
 			shellEjectionPoint.transform.forward * (bulletShellSpeed + Random.Range(-100, 100))
 			+ shellEjectionPoint.transform.right * Random.Range(-50, 10));
 		
 		BoxCollider box = bulletShell.GetComponent<BoxCollider>();
 		
-		StartCoroutine("DestroyBulletShellPhysics", bulletShell);
+	//	StartCoroutine("DestroyBulletShellPhysics", bulletShell);
 	} 
 	
 	IEnumerator DestroyBulletShellPhysics(GameObject bulletShell) {

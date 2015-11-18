@@ -1,21 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof (Rigidbody))]
+
 public class ShellScript : MonoBehaviour {
 	
 	public float sleepTimer = 1f;
 
 	void OnTriggerEnter(Collider collider){
 		
-		if (collider.tag == "Ground") 
+		if (collider.tag == "Ground")
 			StartCoroutine("PutShellToSleep");
 			
 	}
 	
 	IEnumerator PutShellToSleep() {
 		yield return new WaitForSeconds(sleepTimer);
-		Destroy(GetComponent<Rigidbody>());
+		Destroy(this.GetComponent<Rigidbody>());
+		Destroy(this.GetComponent<CapsuleCollider>());
+		Destroy(this.GetComponent<BoxCollider>());
+		Destroy(this.GetComponent<ShellScript>());
+		Destroy(this.GetComponent<MeshFilter>());
 	}
 	
 }

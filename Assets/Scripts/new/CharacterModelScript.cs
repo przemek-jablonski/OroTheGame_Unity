@@ -8,9 +8,9 @@ ModelViewController Design System: MODEL LAYER.
 [RequireComponent (typeof (WeaponScript))]
 public class CharacterModelScript : MonoBehaviour {
 
-	public float			walkingSpeed = 5;
-	public float 			runningSpeed = 7;
-	public float			rotationSpeed = 450;
+	public byte				walkingSpeed = 5;
+	public byte 			runningSpeed = 7;
+	public ushort			rotationSpeed = 450;
 
 	private CharacterController characterController;
 	private WeaponScript	weaponScript;
@@ -19,6 +19,9 @@ public class CharacterModelScript : MonoBehaviour {
 	private Vector3 		movementVector;
 	private Vector3			gravityVector;
 	private Quaternion  	characterTargetRotation;
+	
+	private bool 			actualShot;
+	private bool 			previousShot;
 
 	//constructor	
 	public void Start () {
@@ -29,14 +32,12 @@ public class CharacterModelScript : MonoBehaviour {
 		movementVector = Vector3.zero;
 		gravityVector = Vector3.up * -9.81f;
 		characterTargetRotation = Quaternion.identity;
+		
+		actualShot = false;
+		previousShot = false;
 	}
-	
-	//frame update
-	/*
-	public void Update () {
-	
-	}
-	*/
+
+
 	
 	
 	
@@ -107,12 +108,22 @@ public class CharacterModelScript : MonoBehaviour {
 	/*
 	Shoot():
 		- Force character to shoot his gun
-		- Receive no data
+		- Receive data shootButton up or down value
 		- OR receive gamepad's right trigger force
 		- Force gun to shoot missle
 	*/
-	public void Shoot() {
-		weaponScript.Shoot();
+	public void Shoot(bool isTriggerPressed) {
+		if (isTriggerPressed) 
+			actualShot = true;
+		else 
+			actualShot = false;
+		
+		if(actualShot && !previousShot)
+			weaponScript.Shoot(); 
+			
+		previousShot = actualShot;
+		actualShot = false;
+		
 	}
 	
 	

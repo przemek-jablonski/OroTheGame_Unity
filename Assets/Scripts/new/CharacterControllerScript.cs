@@ -48,25 +48,18 @@ public class CharacterControllerScript : MonoBehaviour {
 		
 		HandleShootButton();
 		
-		
 		anyAxisTouched = false;
 	}
-	
 	
 	
 	//_________________________________________________
 	//CONTROLLER LAYER methods:
 	
-	private void HandleShootButton() {
-		if (Input.GetButton("ShootButton"))
-			characterModelScript.Shoot();
-	}
-	
 	delegate void HandleAxisDelegate();
 	
 	private void HandleAxisKeyboard() {
 		
-		if (Input.GetAxisRaw("KeyboardAxisHorizontal") != 0 || Input.GetAxisRaw("KeyboardAxisVertical") != 0){
+		if (Input.GetAxisRaw("KeyboardAxisHorizontal") != 0 || Input.GetAxisRaw("KeyboardAxisVertical") != 0) {
 			anyAxisTouched = true;
 			characterModelScript.Look(Input.GetAxisRaw("KeyboardAxisHorizontal"), Input.GetAxisRaw("KeyboardAxisVertical"));
 		}
@@ -85,11 +78,20 @@ public class CharacterControllerScript : MonoBehaviour {
 											Input.GetAxisRaw("GamepadAxisVertical"));
 	}
 	
+	
 	private void HandleRunButton() {
 		if (Input.GetButton("RunButton"))
 			characterModelScript.Run(Input.GetAxisRaw("KeyboardAxisHorizontal"),Input.GetAxisRaw("KeyboardAxisVertical"));
 		else
 			characterModelScript.Move(Input.GetAxisRaw("KeyboardAxisHorizontal"),Input.GetAxisRaw("KeyboardAxisVertical"));
+	}
+	
+	
+	private void HandleShootButton() {
+		if (Input.GetButtonDown("ShootButton"))
+			characterModelScript.Shoot(true);
+		else if(Input.GetButtonUp("ShootButton"))
+			characterModelScript.Shoot(false);
 	}
 	
 }
