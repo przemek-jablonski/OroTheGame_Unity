@@ -12,12 +12,15 @@ public class CharacterControllerScript : MonoBehaviour {
 	public 	enum ControlScheme 		{ Keyboard, KeyboardAndMouse, Gamepad };
 	
 	private bool					anyAxisTouched;
+	private Vector3					mousePosition;
 	private HandleAxisDelegate		HandleAxis;
 	
 
 	//constructor
 	public void Start() {
+		Application.targetFrameRate = 60;
 		anyAxisTouched = false;
+		mousePosition = Vector3.zero;
 		
 		//c# delegates (callback) system
 		//'overriding' method HandleAxis according to ControlScheme selected
@@ -67,7 +70,13 @@ public class CharacterControllerScript : MonoBehaviour {
 	
 	
 	private void HandleAxisKeyboardMouse() {
-		//to do really soon
+		if (Input.GetAxisRaw("KeyboardAxisHorizontal") != 0 || Input.GetAxisRaw("KeyboardAxisVertical") != 0) {
+			anyAxisTouched = true;
+		}
+		if(Input.mousePosition != Vector3.zero) {
+			characterModelScript.Look(Input.mousePosition);
+		}
+		
 	}
 	
 	

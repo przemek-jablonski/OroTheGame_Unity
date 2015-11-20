@@ -15,12 +15,20 @@ public class WeaponScript : MonoBehaviour {
 	public float		bulletKillTime = 2;
 	public float		bulletShellSleepTime = 1.2f;
 	
+	private Light		shootLight;
+	
+	public void Start() {
+		shootLight = GetComponentInChildren<Light>();
+		shootLight.enabled = false;
+	}
 	
 	public void Shoot() {
+		
 		
 		BulletSpawn(Instantiate(bullet, bulletEjectionPoint.transform.position, bulletEjectionPoint.transform.rotation) as GameObject);
 		BulletShellSpawn(Instantiate(bulletShell, shellEjectionPoint.transform.position, shellEjectionPoint.transform.rotation) as GameObject);
 		PlayWeaponSound();
+		StartCoroutine("TurnLightOn");
 		
 	}
 	
@@ -55,6 +63,13 @@ public class WeaponScript : MonoBehaviour {
 		weaponSound.Play();
 	}
 	
+	IEnumerator TurnLightOn() {
+		
+		shootLight.enabled = true;
+		yield return new WaitForSeconds(0.05f);
+		shootLight.enabled = false;
+		
+	}
 	
 	
 }

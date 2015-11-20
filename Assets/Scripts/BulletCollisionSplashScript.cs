@@ -3,13 +3,18 @@ using System.Collections;
 
 public class BulletCollisionSplashScript : MonoBehaviour {
 
-	public float			physicsKillTime = 5;
+	public float			physicsKillTime = 2;
+	public float			fadeSpeedModifier = 2;
 	public GameObject		splashBoxTemplate;
 	
 	
 	private GameObject[] 	splashBoxesArray;
 	private Vector3			splashCentreVector;
 	private Vector3			transformPosition;
+	
+	private bool 			fadeStarted;
+	private float			fadeValue;
+	private Color			newFadeColor;
 	
 	
 	public void Initialize(Transform bulletHitTransform) {
@@ -20,6 +25,7 @@ public class BulletCollisionSplashScript : MonoBehaviour {
 	
 	public void Start () {
 		splashBoxesArray = new GameObject[(int)Random.Range(2, 5)];
+		
 		transformPosition = this.transform.position;
 		
 		for (int iter = 0; iter < splashBoxesArray.Length; ++iter) {
@@ -41,6 +47,18 @@ public class BulletCollisionSplashScript : MonoBehaviour {
 			}
 			Destroy(this.GetComponent<BulletCollisionSplashScript>());
 		}
+		
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -11,12 +11,15 @@ public class CharacterModelScript : MonoBehaviour {
 	public float			walkingSpeed = 4.5f;
 	public byte 			runningSpeed = 7;
 	public ushort			rotationSpeed = 500;
+	public Camera			mainCamera;
+	
 
 	private CharacterController characterController;
 	private WeaponScript	weaponScript;
 	private Transform		transformRef;
 	
 	private Vector3 		movementVector;
+	private Vector3			lookVector;
 	private Vector3			gravityVector;
 	private Quaternion  	characterTargetRotation;
 	
@@ -100,6 +103,15 @@ public class CharacterModelScript : MonoBehaviour {
 		movementVector.y = 0;
 		movementVector.z = inputZ;
 		characterTargetRotation = Quaternion.LookRotation(movementVector);
+		transformRef.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transformRef.eulerAngles.y, characterTargetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
+		
+	}
+	
+	public void Look(Vector3 mousePosition) {
+		
+		lookVector = mousePosition;
+		lookVector = mainCamera.ScreenToWorldPoint(new Vector3(lookVector.x, lookVector.y, mainCamera.transform.position.y - transformRef.position.y));
+		characterTargetRotation = Quaternion.LookRotation(lookVector - new Vector3(transformRef.position.x, 0, transformRef.position.z));
 		transformRef.eulerAngles = Vector3.up * Mathf.MoveTowardsAngle(transformRef.eulerAngles.y, characterTargetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
 		
 	}
