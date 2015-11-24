@@ -1,0 +1,12 @@
+IMPLFIX: change bullet (and not only bullet) collision detection system
+	(collisions by raycasts)
+
+IMPLFIX: implement fading (and eventually destroying and deleting) SplashBoxes
+	(for optimisation sake - too much triangles to render)
+
+IMPLFIX: MOUSE MOVEMENT (LOOKING IN MOUSE DIRECTION) NEEDS TO BE FIXED
+	(not translating properly)
+
+FICZER: blood stains on hit
+	(flowing in the air)
+	(spilling on the ground on hit)
