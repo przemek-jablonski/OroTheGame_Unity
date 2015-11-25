@@ -4,7 +4,7 @@
 ModelViewController Design System: CONTROLLER LAYER.
 	(decoding player's input and sending it to model layer properly)
 */
-public class CharacterControllerScript : MonoBehaviour {
+public class CharacterControllerScript : MonoBehaviour, IController{
 
 
 	public  CharacterModelScript 	characterModelScript;
@@ -60,7 +60,7 @@ public class CharacterControllerScript : MonoBehaviour {
 	
 	delegate void HandleAxisDelegate();
 	
-	private void HandleAxisKeyboard() {
+	public void HandleAxisKeyboard() {
 		
 		if (Input.GetAxisRaw("KeyboardAxisHorizontal") != 0 || Input.GetAxisRaw("KeyboardAxisVertical") != 0) {
 			anyAxisTouched = true;
@@ -69,7 +69,7 @@ public class CharacterControllerScript : MonoBehaviour {
 	}
 	
 	
-	private void HandleAxisKeyboardMouse() {
+	public void HandleAxisKeyboardMouse() {
 		if (Input.GetAxisRaw("KeyboardAxisHorizontal") != 0 || Input.GetAxisRaw("KeyboardAxisVertical") != 0) {
 			anyAxisTouched = true;
 		}
@@ -80,7 +80,7 @@ public class CharacterControllerScript : MonoBehaviour {
 	}
 	
 	
-	private void HandleAxisGamepad() {
+	public void HandleAxisGamepad() {
 		
 		if (Input.GetAxisRaw("GamepadAxisHorizontal") > 0 || Input.GetAxisRaw("GamepadAxisVertical") > 0)
 			characterModelScript.Move(Input.GetAxisRaw("GamepadAxisHorizontal"), 
@@ -88,7 +88,7 @@ public class CharacterControllerScript : MonoBehaviour {
 	}
 	
 	
-	private void HandleRunButton() {
+	public void HandleRunButton() {
 		if (Input.GetButton("RunButton"))
 			characterModelScript.Run(Input.GetAxisRaw("KeyboardAxisHorizontal"),Input.GetAxisRaw("KeyboardAxisVertical"));
 		else
@@ -96,7 +96,7 @@ public class CharacterControllerScript : MonoBehaviour {
 	}
 	
 	
-	private void HandleShootButton() {
+	public void HandleShootButton() {
 		if (Input.GetButtonDown("ShootButton"))
 			characterModelScript.Shoot(true);
 		else if(Input.GetButtonUp("ShootButton"))

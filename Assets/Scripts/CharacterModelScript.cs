@@ -6,7 +6,7 @@ ModelViewController Design System: MODEL LAYER.
 */
 [RequireComponent (typeof (CharacterController))]
 [RequireComponent (typeof (WeaponScript))]
-public class CharacterModelScript : MonoBehaviour {
+public class CharacterModelScript : OroLivingActor {
 
 	public float			walkingSpeed = 4.5f;
 	public byte 			runningSpeed = 7;

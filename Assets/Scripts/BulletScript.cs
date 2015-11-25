@@ -4,13 +4,22 @@ using System.Collections;
 public class BulletScript : MonoBehaviour {
 	
 	public float 		bulletKillTime = 3f;
+	public float		baseDamage = 3;
 	public GameObject collisionSplashPrefab;
 	
+	private IDamageable actorHit;
+	
 	public void Start() {
+		actorHit = null;
 		StartCoroutine("DestroyBullet");
 	}
 	
 	public void OnTriggerEnter(Collider collider) {
+		
+		actorHit = collider.GetComponent<IDamageable>();
+		if(actorHit != null)
+			actorHit.HitBehaviour(baseDamage * Random.Range(-2,2));
+		
 		if (collider.tag != "Bullet") {
 			Destroy(this.gameObject);
 			Instantiate(collisionSplashPrefab, this.transform.position, Quaternion.identity);
