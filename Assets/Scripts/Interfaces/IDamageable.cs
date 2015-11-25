@@ -1,5 +1,6 @@
-﻿
+﻿using UnityEngine;
+
 public interface IDamageable {
 	
-	void HitBehaviour (float damageValue);
+	void HitBehaviour (float damageValue, GameObject gameObject);
 }

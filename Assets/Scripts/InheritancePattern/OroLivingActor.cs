@@ -16,7 +16,7 @@ public class OroLivingActor : OroActor, IDamageable {
 
 	//float damage is absolute value of damage that has been dealt to Actor
 	//(that is no -10 hp of damage, but 10 hp, since health is -= damage)
-	public void HitBehaviour(float damage) {
+	public void HitBehaviour(float damage, GameObject gameObject) {
 		if(damage < 0) return;
 		string text = "LivingActor is HIT (had: " + actualHealth +
 						"hp, damage dealt: " + damage;
@@ -25,12 +25,12 @@ public class OroLivingActor : OroActor, IDamageable {
 		Debug.Log(text);
 		
 		if(actualHealth < 0) {
-			Die();
+			Die(gameObject);
 		}
 		
 	}
 	
-	private void Die(){
+	private void Die(GameObject gameObject){
 		isDead = true;
 		Debug.Log("LivingActor DIED");
 	}
