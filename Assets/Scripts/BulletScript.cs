@@ -15,12 +15,10 @@ public class BulletScript : MonoBehaviour {
 	}
 	
 	public void OnTriggerEnter(Collider collider) {
-		
-		actorHit = collider.GetComponent<IDamageable>();
-		if(actorHit != null)
-			actorHit.HitBehaviour(baseDamage * Random.Range(-2,2));
-		
 		if (collider.tag != "Bullet") {
+			actorHit = collider.gameObject.GetComponent<IDamageable>();
+			if(actorHit != null) actorHit.HitBehaviour(baseDamage + Random.Range(-2,2));
+			
 			Destroy(this.gameObject);
 			Instantiate(collisionSplashPrefab, this.transform.position, Quaternion.identity);
 		}

@@ -9,6 +9,17 @@ IMPLFIX: MOUSE MOVEMENT (LOOKING IN MOUSE DIRECTION) NEEDS TO BE FIXED
 
 IMPLFIX: StartCoroutine(Coroutine) INSTEAD OF StartCoroutine(“Coroutine”)
 
+
++ Actors hit by bullet must 
+	a) Be coloured red for few seconds
+	b) maybe shake a little (mainly in -shotVector)
+	c) have FLOATING DMG NUMBER
+	d) must be killed (deleted for now, later DEATH ANIMATION)
+
+FLOATING DMG NUMBER:
+	a) size depends on how many dmg was dealt
+	b) colour depends on how many HP has actor got left
+
 FICZER: blood stains on hit
 	(flowing in the air)
 	(spilling on the ground on hit)

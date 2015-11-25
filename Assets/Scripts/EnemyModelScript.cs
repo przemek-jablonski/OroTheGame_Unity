@@ -3,8 +3,10 @@ using System.Collections;
 
 public class EnemyModelScript : OroLivingActor, IEnemyModel {
 
-	public override void Start () {
 	
+	
+	public override void Start () {
+		base.Start();
 	}
 
 	//_________________________________________________

@@ -27,7 +27,8 @@ public class CharacterModelScript : OroLivingActor {
 	private bool 			previousShot;
 
 	//constructor	
-	public void Start () {
+	public override void Start () {
+		base.Start();
 		characterController = GetComponent<CharacterController>();
 		weaponScript = GetComponentInChildren<WeaponScript>();
 		transformRef = this.transform;
