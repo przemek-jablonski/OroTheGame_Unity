@@ -26,7 +26,7 @@ public class BulletScript : MonoBehaviour {
 	private void CheckRaycastCollision() {
 		Ray ray = new Ray (transformRef.position, transformRef.forward);
 		RaycastHit raycastHit;
-		if(Physics.Raycast(ray, out raycastHit, this.GetComponent<Rigidbody>().velocity.magnitude * Time.deltaTime, destroyableMask, QueryTriggerInteraction.Collide))
+		if(Physics.Raycast(ray, out raycastHit, this.GetComponent<Rigidbody>().velocity.magnitude * 0.033f, destroyableMask, QueryTriggerInteraction.Collide))
 			BulletCollided(raycastHit);
 	
 	}
@@ -35,7 +35,7 @@ public class BulletScript : MonoBehaviour {
 		IDamageable damaged = raycastHit.collider.GetComponent<IDamageable>();
 		if (damaged != null) {
 			//object which has Damageable interface has been hit
-			damaged.HitBehaviour(Random.Range(3,5));
+			damaged.HitBehaviour(Random.Range(1,4));
 		}
 		else {
 			//object which is not damageable has been hit

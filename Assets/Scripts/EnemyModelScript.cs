@@ -1,9 +1,26 @@
 ﻿using UnityEngine;
+using System.Collections;
 
+[RequireComponent (typeof (NavMeshAgent))]
 public class EnemyModelScript : OroLivingActor, IEnemyModel {
+	
+	private NavMeshAgent navMeshAgent;
+	public Transform 	 targetObject;
+	public float		 pathSeekRefresh = 0.25f;
 
 	public override void Start () {
 		base.Start();
+		navMeshAgent = this.GetComponent<NavMeshAgent>();
+		StartCoroutine(UpdateNavigation());
+	}
+	
+	
+	IEnumerator UpdateNavigation() {
+		while (targetObject.gameObject != null) {
+			navMeshAgent.SetDestination(targetObject.position);
+			yield return new WaitForSeconds(pathSeekRefresh);
+		}
+		
 	}
 
 	//_________________________________________________
