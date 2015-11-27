@@ -6,13 +6,22 @@ public class EnemyModelScript : OroLivingActor, IEnemyModel {
 	
 	private NavMeshAgent navMeshAgent;
 	public Transform 	 targetObject;
-	public float		 pathSeekRefresh = 0.25f;
+	public float		 pathSeekRefresh = 0.30f;
+	public GameObject      onHitParticle;
 
 	public override void Start () {
 		base.Start();
 		navMeshAgent = this.GetComponent<NavMeshAgent>();
 		StartCoroutine(UpdateNavigation());
 	}
+	
+	/*
+	 public void HitBehaviour(float damage) {
+		 Debug.Log("hitbehaviour called from enemymodelscript");
+		base.HitBehaviour(damage);
+		Instantiate(onHitParticle, transform.position, Quaternion.identity);
+	}
+	*/
 	
 	
 	IEnumerator UpdateNavigation() {
