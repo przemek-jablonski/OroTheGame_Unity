@@ -45,25 +45,6 @@ public class BulletScript : MonoBehaviour {
 		Destroy(this.gameObject);
 	}
 	
-	
-	private void RaycastCollision(RaycastHit raycastHit) {
-		Debug.Log("RAYCAST HIT SOMFYN");
-		//raycastHit.collider.GetComponent<IDamageable>().HitBehaviour(2)
-		Destroy(this.gameObject);
-	}
-	
-	/*
-	public void OnTriggerEnter(Collider collider) {
-		if (collider.tag != "Bullet") {
-			actorHit = collider.gameObject.GetComponent<IDamageable>();
-			if(actorHit != null) actorHit.HitBehaviour(baseDamage + Random.Range(-2,2), collider.gameObject);
-			
-			Destroy(this.gameObject);
-			Instantiate(collisionSplashPrefab, this.transform.position, Quaternion.identity);
-		}
-	}
-	*/
-	
 	IEnumerator DestroyBullet(){
 		yield return new WaitForSeconds(bulletKillTime);
 		Destroy(this.gameObject);

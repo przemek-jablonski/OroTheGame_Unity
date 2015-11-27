@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 //LIVINGACTOR
 //LivingActor is a type of actor that is 'living' in the world
@@ -24,6 +25,8 @@ public class OroLivingActor : OroActor, IDamageable {
 		text += "hp, now: " + actualHealth + "hp).";
 		Debug.Log(text);
 		
+		StartCoroutine(redTintFlash());
+		
 		if(actualHealth < 0) {
 			Die(this.gameObject);
 		}
@@ -32,7 +35,15 @@ public class OroLivingActor : OroActor, IDamageable {
 	
 	private void Die(GameObject gameObject){
 		isDead = true;
-		Debug.Log("LivingActor DIED");
+		Destroy(this.gameObject);
+	}
+	
+	IEnumerator redTintFlash() {
+		gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+		gameObject.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.8f, 0.1f, 0.1f));
+		yield return new WaitForSeconds(.07f);
+		gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.6f, 0, 1));
+		gameObject.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.04f, 0.01f, 0.17f));
 	}
 	
 }
