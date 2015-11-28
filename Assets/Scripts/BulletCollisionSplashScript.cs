@@ -7,6 +7,15 @@ public class BulletCollisionSplashScript : MonoBehaviour {
 	public float			fadeSpeedModifier = 2;
 	public GameObject		splashBoxTemplate;
 	
+	public int				boxCountMin = 2;
+	public int				boxCountMax = 5;
+	public float			splashForceMin = 1f;
+	public float			splashForceMax = 1.2f;
+	public float			splashScaleMin = 1f;
+	public float 			splashScaleMax = 2.65f;
+	public float			splashRandomMultiplier = 2;
+	
+	
 	
 	private GameObject[] 	splashBoxesArray;
 	private Vector3			splashCentreVector;
@@ -18,20 +27,20 @@ public class BulletCollisionSplashScript : MonoBehaviour {
 	
 	
 	public void Initialize(Transform bulletHitTransform) {
-		splashCentreVector = -this.transform.forward * Random.Range(1,1.2f);
+		splashCentreVector = -this.transform.forward * Random.Range(splashForceMin, splashForceMax);
 		Start();
 	}
 	
 	
 	public void Start () {
-		splashBoxesArray = new GameObject[(int)Random.Range(2, 5)];
+		splashBoxesArray = new GameObject[(int)Random.Range(boxCountMin, boxCountMax)];
 		
 		transformPosition = this.transform.position;
 		
 		for (int iter = 0; iter < splashBoxesArray.Length; ++iter) {
-			splashBoxesArray[iter] = Instantiate(splashBoxTemplate, transformPosition, Quaternion.Euler(Random.Range(-25, 45), Random.Range(-5, 5), Random.Range(-15, 15))) as GameObject;
+			splashBoxesArray[iter] = Instantiate(splashBoxTemplate, transformPosition, Quaternion.Euler(Random.Range(-splashRandomMultiplier * 5, splashRandomMultiplier * 7), Random.Range(-splashRandomMultiplier, splashRandomMultiplier), Random.Range(-splashRandomMultiplier *3, splashRandomMultiplier * 3))) as GameObject;
 			splashBoxesArray[iter].GetComponent<Rigidbody>().AddForce(splashCentreVector);
-			splashBoxesArray[iter].transform.localScale *= Random.Range(1,2.65f);
+			splashBoxesArray[iter].transform.localScale *= Random.Range(splashScaleMin, splashScaleMax);
 		}
 		
 		StartCoroutine("DestroyBoxPhysics");

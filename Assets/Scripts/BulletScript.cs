@@ -35,7 +35,7 @@ public class BulletScript : MonoBehaviour {
 		IDamageable damaged = raycastHit.collider.GetComponent<IDamageable>();
 		if (damaged != null) {
 			//object which has Damageable interface has been hit
-			damaged.HitBehaviour(Random.Range(1,4));
+			damaged.Hit(Random.Range(1,4));
 		}
 		else {
 			//object which is not damageable has been hit

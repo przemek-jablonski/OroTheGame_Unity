@@ -2,5 +2,7 @@
 
 public interface IDamageable {
 	
-	void HitBehaviour (float damageValue);
+	void Hit (float damageValue);
+	
+	void Die (GameObject gameObject);
 }

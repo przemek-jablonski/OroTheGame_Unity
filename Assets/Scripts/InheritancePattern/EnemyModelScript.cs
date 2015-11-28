@@ -2,12 +2,13 @@
 using System.Collections;
 
 [RequireComponent (typeof (NavMeshAgent))]
-public class EnemyModelScript : OroLivingActor, IEnemyModel {
+public class EnemyModelScript : OroLivingActor {
 	
 	private NavMeshAgent navMeshAgent;
 	public Transform 	 targetObject;
 	public float		 pathSeekRefresh = 0.30f;
-	public GameObject      onHitParticle;
+	public GameObject    onHitParticle;
+	public GameObject	 enemyDeathSplashPrefab;
 
 	public override void Start () {
 		base.Start();
@@ -15,14 +16,16 @@ public class EnemyModelScript : OroLivingActor, IEnemyModel {
 		StartCoroutine(UpdateNavigation());
 	}
 	
-	/*
-	 public void HitBehaviour(float damage) {
-		 Debug.Log("hitbehaviour called from enemymodelscript");
-		base.HitBehaviour(damage);
-		Instantiate(onHitParticle, transform.position, Quaternion.identity);
-	}
-	*/
 	
+	 public override void HitBehaviour() {
+		 Debug.Log("EnemyModelScript.HitBehaviour() called");
+		//base.HitBehaviour(damage);
+		GameObject particle = Instantiate(onHitParticle, transform.position, Quaternion.identity) as GameObject;
+	}
+	
+	public override void DeathBehaviour(){
+		Instantiate(enemyDeathSplashPrefab, transform.position, Quaternion.identity);
+	}
 	
 	IEnumerator UpdateNavigation() {
 		while (targetObject.gameObject != null) {

@@ -28,7 +28,9 @@ public class CharacterModelScript : OroLivingActor {
 
 	//constructor	
 	public override void Start () {
+		Debug.Log("CharacterModel.Start() called. OroLivingActor.Start() next");
 		base.Start();
+		
 		characterController = GetComponent<CharacterController>();
 		weaponScript = GetComponentInChildren<WeaponScript>();
 		transformRef = this.transform;
@@ -42,6 +44,12 @@ public class CharacterModelScript : OroLivingActor {
 	}
 
 
+	public override void HitBehaviour() {
+		Debug.Log("CharacterModel.HitBehaviour() called");
+	}
+	
+	public override void DeathBehaviour() {
+	}
 	
 	
 	
