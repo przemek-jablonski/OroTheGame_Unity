@@ -4,7 +4,7 @@ using System.Collections;
 public class DestructablePropScript : OroLivingActor {
 
 	//new public float startHealth = 20;
-	
+	//ddawdawd
 	public GameObject lootPouch;
 	
 
