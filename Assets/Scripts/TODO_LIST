@@ -17,6 +17,7 @@ FIX: in BulletScript.CheckRaycastCollision():
 FIX: in BulletScript.BulletCollided():
 		seeking hit gameobject through ComponentList TWICE is unacceptable
 
+FIXX: enemy bleeding from wrong side (from back-side, not spawning on front)
 
 + Actors hit by bullet must 
 	a) Be coloured red for few seconds
