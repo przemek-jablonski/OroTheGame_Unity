@@ -13,6 +13,7 @@ public class EnemyModelScript : OroLivingActor {
 	public override void Start () {
 		base.Start();
 		navMeshAgent = this.GetComponent<NavMeshAgent>();
+		Debug.Log("EnemyModel start health: " + startHealth + ", actual: " + actualHealth);
 		StartCoroutine(UpdateNavigation());
 	}
 	

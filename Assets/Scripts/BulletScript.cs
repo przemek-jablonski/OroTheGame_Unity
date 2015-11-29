@@ -6,7 +6,7 @@ public class BulletScript : MonoBehaviour {
 	public float 		bulletKillTime = 3f;
 	public float		baseDamage = 3;
 	public LayerMask	destroyableMask;
-	public GameObject collisionSplashPrefab;
+	public GameObject 	collisionSplashPrefab;
 	
 	private IDamageable actorHit;
 	private Transform 	transformRef;
@@ -15,7 +15,6 @@ public class BulletScript : MonoBehaviour {
 	public void Start() {
 		actorHit = null;
 		transformRef = this.transform;
-		//bulletSpeed = this.GetComponent<Rigidbody>().velocity.magnitude;
 		StartCoroutine("DestroyBullet");
 	}
 	
