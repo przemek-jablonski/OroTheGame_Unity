@@ -10,7 +10,7 @@ IMPLFIX: MOUSE MOVEMENT (LOOKING IN MOUSE DIRECTION) NEEDS TO BE FIXED
 IMPLFIX: StartCoroutine(Coroutine) INSTEAD OF StartCoroutine(“Coroutine”)
 
 FIX: in BulletScript.CheckRaycastCollision():
-		this.GetComponent<Rigidbody>().velocity.magnitude is called every 			frame which fucking sucks 
+		this.GetComponent<Rigidbody>().velocity.magnitude is called every frame which fucking sucks 
 		(cannot be instantiated in Start() since on moment of birth there is 
 		no force attached, it is added 1 frame later ;/)
 
@@ -18,6 +18,8 @@ FIX: in BulletScript.BulletCollided():
 		seeking hit gameobject through ComponentList TWICE is unacceptable
 
 FIXX: enemy bleeding from wrong side (from back-side, not spawning on front)
+
+IMPLEMENT: 3 splashes (enemy, bullet, woodbox) needs to inherit common functionality from one parent class
 
 + Actors hit by bullet must 
 	a) Be coloured red for few seconds

@@ -9,6 +9,9 @@ public abstract class OroLivingActor : OroActor, IDamageable {
 	public float		startHealth;
 	protected float		actualHealth;
 	protected bool		isDead;
+	
+	private Color		previousColor;
+	private Color		previousEmissionColor;
 
 	public virtual void Start () {
 		Debug.Log("OroLivingActor Start() called.");
@@ -48,11 +51,13 @@ public abstract class OroLivingActor : OroActor, IDamageable {
 	}
 	
 	IEnumerator redTintFlash() {
+		previousColor = gameObject.GetComponent<Renderer>().material.GetColor("_Color");
+		previousEmissionColor = gameObject.GetComponent<Renderer>().material.GetColor("_EmissionColor");
 		gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
 		gameObject.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.8f, 0.1f, 0.1f));
 		yield return new WaitForSeconds(.07f);
-		gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(0.6f, 0, 1));
-		gameObject.GetComponent<Renderer>().material.SetColor("_EmissionColor", new Color(0.04f, 0.01f, 0.17f));
+		gameObject.GetComponent<Renderer>().material.SetColor("_Color", previousColor);
+		gameObject.GetComponent<Renderer>().material.SetColor("_EmissionColor", previousEmissionColor);
 	}
 	
 }

@@ -24,13 +24,14 @@ public class BulletCollisionSplashScript : MonoBehaviour {
 	private bool 			fadeStarted;
 	private float			fadeValue;
 	private Color			newFadeColor;
-	
+	/*
 	
 	public void Initialize(Transform bulletHitTransform) {
+		Debug.Log("BULLETCOLLSPLASH INITIALIZE()");
 		splashCentreVector = -this.transform.forward * Random.Range(splashForceMin, splashForceMax);
 		Start();
 	}
-	
+	*/
 	
 	public void Start () {
 		splashBoxesArray = new GameObject[(int)Random.Range(boxCountMin, boxCountMax)];
