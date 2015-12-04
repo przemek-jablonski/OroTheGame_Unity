@@ -16,6 +16,15 @@ public class WeaponGenerEditor : Editor {
 			
 		if (GUILayout.Button("Generate: Receiver"))
 			weaponGenerator.GenerateReceiver();
+			
+		if (GUILayout.Button("Generate: Stock"))
+			weaponGenerator.GenerateStock();
+			
+		if (GUILayout.Button("Access The List"))
+			weaponGenerator.accessModuleList();
+			
+		if (GUILayout.Button("Glue Stock to Receiver"))
+			weaponGenerator.GlueStockReceiver();
 		
 	}
 	
