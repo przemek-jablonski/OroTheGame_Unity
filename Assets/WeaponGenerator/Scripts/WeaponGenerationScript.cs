@@ -10,11 +10,10 @@ public class WeaponGenerationScript : MonoBehaviour {
 	void Start () {
 		
 	}
-	
-	
-	void Update () {
-		
-	}
+
+	public void ResetList() {
+		moduleList = new List<GameObject>();
+	}	
 	
 	public void ButtonClick() {
 		Debug.Log("WeaponGenerationScript Button pressed!");
@@ -49,7 +48,7 @@ public class WeaponGenerationScript : MonoBehaviour {
 		vulcrumsDeltaPosition -= moduleList[1].GetComponentInChildren<wgentest>().transform.position;
 		Debug.Log("deltaPos: " + vulcrumsDeltaPosition);
 		
-		moduleList[1].GetComponentInChildren<wgentest>().transform.position += vulcrumsDeltaPosition;
+		moduleList[1].transform.position += Vector3.up * 1.5f;
 		
 	}
 }

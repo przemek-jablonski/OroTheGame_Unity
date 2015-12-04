@@ -11,6 +11,9 @@ public class WeaponGenerEditor : Editor {
 		
 		WeaponGenerationScript weaponGenerator = (WeaponGenerationScript)target;
 		
+		if(GUILayout.Button("Hard Reset"))
+			weaponGenerator.ResetList();
+		
 		if (GUILayout.Button("Write to Console"))
 			weaponGenerator.ButtonClick();
 			
