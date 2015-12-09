@@ -11,6 +11,7 @@ public class WeaponGenerEditor : Editor {
 		
 		WeaponGenerationScript weaponGenerator = (WeaponGenerationScript)target;
 		
+		
 		if(GUILayout.Button("Hard Reset"))
 			weaponGenerator.ResetList();
 		
@@ -25,6 +26,9 @@ public class WeaponGenerEditor : Editor {
 			
 		if (GUILayout.Button("Access The List"))
 			weaponGenerator.accessModuleList();
+			
+		if (GUILayout.Button("Test IDs in List")) 
+			weaponGenerator.checkIdentifiersInList();
 			
 		if (GUILayout.Button("Glue Stock to Receiver"))
 			weaponGenerator.GlueStockReceiver();
