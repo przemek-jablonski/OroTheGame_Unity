@@ -29,7 +29,7 @@ public class WeaponGenerationScript : MonoBehaviour {
 		moduleList.Add(
 						Instantiate(Resources.Load("WeaponGeneratorResources/Prefabs/Grips/grip_marksman"),
 						transform.position + new Vector3(-1,-2,-1),
-						Quaternion.identity) as GameObject);
+						new Quaternion(Random.Range(-360, 360), Random.Range(-360,360), Random.Range(-360, 360), Random.Range(1,2))) as GameObject);
 	}
 	
 	
@@ -136,12 +136,15 @@ public class WeaponGenerationScript : MonoBehaviour {
 					}
 		}
 		
+		gluedGroup.transform.rotation = targetVulcrum.transform.rotation;
+		gluedGroup.transform.forward = -gluedGroup.transform.forward;
+		
 		gluedModuleDelta = gluedGroup.transform.position - gluedVulcrum.transform.position;
 		gluedGroup.transform.position = targetVulcrum.transform.position + gluedModuleDelta;
 		//Quaternion q = new Quaternion
 	
 		
-		//gluedGroup.transform.rotation = targetVulcrum.transform.rotation * new Quaternion(0,-90,0,0);
+
 		
 	}
 }
