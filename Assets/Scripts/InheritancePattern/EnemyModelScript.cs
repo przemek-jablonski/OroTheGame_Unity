@@ -21,7 +21,7 @@ public class EnemyModelScript : OroLivingActor {
 	 public override void HitBehaviour() {
 		 Debug.Log("EnemyModelScript.HitBehaviour() called");
 		//base.HitBehaviour(damage);
-		GameObject particle = Instantiate(onHitParticle, transform.position, Quaternion.identity) as GameObject;
+//		GameObject particle = Instantiate(onHitParticle, transform.position, Quaternion.identity) as GameObject;
 	}
 	
 	public override void DeathBehaviour(){

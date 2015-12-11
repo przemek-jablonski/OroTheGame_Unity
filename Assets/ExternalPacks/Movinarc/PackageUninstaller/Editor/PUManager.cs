@@ -36,7 +36,7 @@ namespace Movinarc
             packages = new List<Package>();
             var win = EditorWindow.GetWindow(typeof(PUManager));
             win.minSize = new Vector2(410, 450);
-            win.title = "Uninstall Package";
+//            win.title = "Uninstall Package";
 #if UNITY_EDITOR_WIN
             var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             path = Path.Combine(path, "Unity");
