@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TextureChanger : MonoBehaviour 
 {
+	/*
 	public GameObject [] DiffuseTexture1;
 	public GameObject [] ParallaxTexture1;
 
@@ -41,4 +42,5 @@ public class TextureChanger : MonoBehaviour
 		}
 	}
 
+*/
 }
