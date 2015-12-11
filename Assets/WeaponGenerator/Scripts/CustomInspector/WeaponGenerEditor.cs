@@ -39,6 +39,9 @@ public class WeaponGenerEditor : Editor {
 		
 		if (GUILayout.Button("Glue Grip to Receiver"))
 			weaponGenerator.GlueGripReceiver();
+			
+		if (GUILayout.Button("Glue Trigger to Receiver"))
+			weaponGenerator.GlueTriggerReceiver();
 	}
 	
 }

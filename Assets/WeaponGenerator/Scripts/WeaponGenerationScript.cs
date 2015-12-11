@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-
 public class WeaponGenerationScript : MonoBehaviour {
 
 	//TODO: FIX: instead of GameObject, list should contain WeaponModule type!
@@ -28,19 +27,26 @@ public class WeaponGenerationScript : MonoBehaviour {
 	private void GenerateGrip() {
 		moduleList.Add(
 						Instantiate(Resources.Load("WeaponGeneratorResources/Prefabs/Grips/grip_marksman"),
-						transform.position + new Vector3(-1,-2,-1),
+						transform.position + new Vector3(Random.Range(-4,4), Random.Range(-4,4), Random.Range(-1,1)),
 						new Quaternion(Random.Range(-360, 360), Random.Range(-360,360), Random.Range(-360, 360), Random.Range(1,2))) as GameObject);
 	}
 	
+	private void GenerateTrigger() {
+		moduleList.Add(
+						Instantiate(Resources.Load("WeaponGeneratorResources/Prefabs/Triggers/trigger_marksman"),
+						transform.position + new Vector3(Random.Range(-4,4), Random.Range(-3,3), Random.Range(-4,4)),
+						new Quaternion(Random.Range(-360, 360), Random.Range(-360,360), Random.Range(-360, 360), Random.Range(1,2))) as GameObject);
+	}
 	
 	
 	public void GenerateAll() {
 		GenerateReceiver();
 		GenerateStock();
 		GenerateGrip();
+		GenerateTrigger();
 	}
-	
-	public void accessModuleList() {
+
+    public void accessModuleList() {
 		Debug.Log("ModuleListPrint: ");
 		Debug.Log("module0: " + moduleList[0].name);
 		Debug.Log("module1: " + moduleList[1].name);
@@ -142,9 +148,56 @@ public class WeaponGenerationScript : MonoBehaviour {
 		gluedModuleDelta = gluedGroup.transform.position - gluedVulcrum.transform.position;
 		gluedGroup.transform.position = targetVulcrum.transform.position + gluedModuleDelta;
 		//Quaternion q = new Quaternion
-	
 		
-
+	}
+	
+	public void GlueTriggerReceiver() {
+		WGIdentifier targetVulcrum = new WGIdentifier();
+		Quaternion targetVulcrumRotation = Quaternion.identity;
+		Vector3 targetVulcrumCentre = Vector3.zero;
+		
+		WGIdentifier gluedGroup = new WGIdentifier();
+		WGIdentifier gluedVulcrum = new WGIdentifier();
+		Vector3		 gluedVulcrumCentre = Vector3.zero;
+		Vector3		 gluedModuleDelta = Vector3.zero;
+		Quaternion   gluedModuleRotationDelta = Quaternion.identity;
+		
+		
+		foreach (WGIdentifier id in moduleList[3].GetComponentsInChildren<WGIdentifier>()) {
+			if (id.objectType == WGIdentifierEnum.moduleVulcrum
+					&& id.module == WGModuleEnum.trigger) {
+						Debug.Log("Found appropriate vulcrum");
+						targetVulcrum = id;
+						targetVulcrumRotation = targetVulcrum.transform.rotation;
+						targetVulcrumCentre = targetVulcrum.GetComponent<Renderer>().bounds.center;
+					}
+			
+		}
+		
+		foreach (WGIdentifier id in moduleList[3].GetComponentsInChildren<WGIdentifier>()) {
+			if (id.objectType == WGIdentifierEnum.moduleGroup
+					&& id.module == WGModuleEnum.trigger) 
+						gluedGroup = id;
+					
+			
+			if (id.objectType == WGIdentifierEnum.moduleVulcrum
+					&& id.module == WGModuleEnum.trigger) {
+						gluedVulcrum = id;
+						gluedVulcrumCentre = gluedVulcrum.GetComponent<Renderer>().bounds.center;
+						
+					}
+		}
+		
+		gluedGroup.transform.rotation = targetVulcrum.transform.rotation;
+		gluedGroup.transform.forward = -gluedGroup.transform.forward;
+		
+		gluedModuleDelta = gluedGroup.transform.position - gluedVulcrum.transform.position;
+		gluedGroup.transform.position = targetVulcrum.transform.position + gluedModuleDelta;
+		
+	}
+	
+	
+	public void GlueToReceiver(WGModuleEnum gluedModule) {
 		
 	}
 }
