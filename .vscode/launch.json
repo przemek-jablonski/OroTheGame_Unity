@@ -5,7 +5,11 @@
 			"name":"Unity",
 			"type":"mono",
 			"address":"localhost",
+<<<<<<< HEAD
 			"port":56009
+=======
+			"port":56827
+>>>>>>> 42a657eae564cb3ec5c2318610dd0bfcb9742774
 		}
 	]
 }
