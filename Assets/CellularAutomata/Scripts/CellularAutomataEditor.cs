@@ -14,9 +14,13 @@ public class CellularAutomataEditor : Editor {
 		
 		if (GUILayout.Button("Create Map"))
 			cellularAutomata.CreateMap();
+			
+		if (GUILayout.Button("Generate Boxes"))
+			cellularAutomata.SpawnBoxes();
 		
 		if (GUILayout.Button("Delete Map"))
 			cellularAutomata.DeleteMap();
+			
 	}
 
 }

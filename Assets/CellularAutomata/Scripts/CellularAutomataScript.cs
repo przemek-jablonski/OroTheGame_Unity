@@ -16,33 +16,59 @@ public class CellularAutomataScript : MonoBehaviour {
 
 
 	private  float 		groundSideLength;
+	private  float		boxSideLength;
 	private  GameObject generatedMap;
 	
-	private void CalculateGroundTileSideLength() {
-		groundSideLength = groundPrefab.transform.localScale.x;
-	}
 
 	public void CreateMap() {
-		if (generatedMap)
-			DeleteMap();
+		if (generatedMap) DeleteMap();
 		
+		GameObject groundLayer = new GameObject("Ground Layer");
 		generatedMap = new GameObject("Generated Map");
+		groundLayer.transform.parent = generatedMap.transform;
+		groundSideLength = groundPrefab.transform.localScale.x;
 		
 		for (int x = 0; x < mapSize.x ; ++x) {
 			for (int y = 0; y < mapSize.y; ++y) {
-				(Instantiate(
+				GameObject tile = Instantiate(
 					groundPrefab,
-					new Vector3(mapStartingPosition.x + x * groundSideLength,
+					new Vector3(mapStartingPosition.x + x * groundSideLength + groundSideLength/2,
 								mapStartingPosition.y,
-								mapStartingPosition.z + y * groundSideLength),
+								mapStartingPosition.z + y * groundSideLength + groundSideLength/2),
 					Quaternion.Euler(Vector3.right * 90)
-				) as GameObject).transform.parent = generatedMap.transform;
+				) as GameObject;
+				
+				tile.transform.parent = groundLayer.transform;
+				tile.name = "Ground (" + x + "/" + y + ")";
 			}
 		}
 	}
 	
 	public void DeleteMap() {
 		DestroyImmediate(generatedMap);
+	}
+	
+	public void SpawnBoxes() {
+		boxSideLength = boxPrefab.transform.localScale.x;
+		
+		GameObject boxLayer = new GameObject("Box Layer");
+		boxLayer.transform.parent = generatedMap.transform;
+		
+		for (int x = 0 ; x < mapSize.x; ++x) {
+			for (int y = 0 ; y < mapSize.y; ++y) {
+				if (Random.Range(0,100) < birthChance) {
+					GameObject tile = Instantiate(
+						boxPrefab,
+						new Vector3(mapStartingPosition.x + x * boxSideLength + boxSideLength/2,
+									mapStartingPosition.y + boxSideLength/2,
+									mapStartingPosition.z + y * boxSideLength + boxSideLength/2),
+						Quaternion.identity
+					) as GameObject;
+					tile.name = "box (" + x + "/" + y  + ")";
+					tile.transform.parent = boxLayer.transform;
+				}
+			}
+		}
 	}
 
 }
