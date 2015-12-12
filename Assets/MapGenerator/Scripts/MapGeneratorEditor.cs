@@ -16,10 +16,12 @@ public class MapGeneratorEditor : Editor {
 		
 		if (GUILayout.Button("Generate Map"))
 			mapGeneratorScript.GenerateMap();
+			
+		if (GUILayout.Button("Generate Boxes"))
+			mapGeneratorScript.LittleMoreComplexFillWithBoxes();
 		
 		if (GUILayout.Button("Delete tiles"))
 			mapGeneratorScript.DeleteTiles();
-		
 		
 		if(GUILayout.Button("Calculate Quad Side"))
 			mapGeneratorScript.CalculateQuadSide();
