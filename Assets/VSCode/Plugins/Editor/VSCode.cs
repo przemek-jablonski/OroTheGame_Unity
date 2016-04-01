@@ -19,6 +19,7 @@ namespace dotBunny.Unity
     using UnityEditor;
     using UnityEngine;
 
+
     [InitializeOnLoad]
     public static class VSCode
     {
