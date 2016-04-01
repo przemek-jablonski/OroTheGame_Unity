@@ -1,15 +1,12 @@
 {
-	"version":"0.1.0",
+	"version":"0.2.0",
 	"configurations":[ 
 		{
 			"name":"Unity",
 			"type":"mono",
+			"request":"attach",
 			"address":"localhost",
-<<<<<<< HEAD
-			"port":56009
-=======
-			"port":56827
->>>>>>> 42a657eae564cb3ec5c2318610dd0bfcb9742774
+			"port":56180
 		}
 	]
 }
