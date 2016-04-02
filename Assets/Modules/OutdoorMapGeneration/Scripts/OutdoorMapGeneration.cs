@@ -11,21 +11,29 @@ public class OutdoorMapGeneration : MonoBehaviour {
 
 	[Range(1, 10)]
 	public int octaves = 3;
-    [Range(1, 6)]
+    [Range(0.001f, 5)]
     public float persistence = 1;
     [Range(1, 6)]
     public float lacunarity = 1;
+	
+    // public int seed;
 
-    public bool isAutoUpdatable;
+    public bool useRandomSeed;
+    public bool autoUpdate;
 
     
     
     public void Generate() {
         if(mapX < 2) mapX = 10;
         if(mapY < 2) mapY = 10;
-        float[,] map = PerlinNoise.Generate2d(mapX,mapY, noiseScale, octaves, persistence, lacunarity);
-        
-        
+        float[,] map;
+        if (useRandomSeed) {
+            System.Random random = new System.Random();
+            map = PerlinNoise.Generate2d(mapX, mapY, random.Next(), noiseScale, octaves, persistence, lacunarity);
+        } else {
+            map = PerlinNoise.Generate2d(mapX, mapY, 1, noiseScale, octaves, persistence, lacunarity);
+        }
+
         OutdoorMapRenderer2DTest renderer = FindObjectOfType<OutdoorMapRenderer2DTest>();
         renderer.DrawTexture(map);
     }

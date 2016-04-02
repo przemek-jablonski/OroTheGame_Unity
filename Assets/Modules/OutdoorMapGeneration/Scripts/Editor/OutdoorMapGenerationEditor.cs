@@ -10,7 +10,7 @@ public class OutdoorMapGenerationEditor : Editor {
         OutdoorMapGeneration generator = (OutdoorMapGeneration) target;
         
         if(DrawDefaultInspector()) {
-            if(generator.isAutoUpdatable)
+            if(generator.autoUpdate)
                 generator.Generate();
             
         }
