@@ -9,12 +9,12 @@ public class OutdoorMapGeneration : MonoBehaviour {
 	[Range (0, 50)]
     public float noiseScale = 0.5f;
 
-	[Range (1, 10)]
+	[Range(1, 10)]
 	public int octaves = 3;
-	[Range (1, 6)]
-	public float persistence;
-	[Range (1, 6)]
-	public float lacunarity;
+    [Range(1, 6)]
+    public float persistence = 1;
+    [Range(1, 6)]
+    public float lacunarity = 1;
 
     public bool isAutoUpdatable;
 

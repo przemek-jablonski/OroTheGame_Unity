@@ -15,19 +15,25 @@ public class OutdoorMapRenderer2DTest : MonoBehaviour {
         
         Texture2D texture = new Texture2D(width, height);
         
+        
+        
         Color[] colours = new Color[width * height];
         
         for (int i = 0; i < height; i++)
 			for (int j = 0; j < width; j++) {
-				
-				if(map[j,i] >= 1) 
-					colours[i*width+j] = Color.Lerp(colorOrange, colorRed, map[j,i]);
-				 else if (map[j,i] <= 0) 
-					colours[i*width+j] = Color.Lerp(colorBlue, colorLightBlue, map[j,i]);
-				
-				 else 
-                	colours[i*width+j] = Color.Lerp(Color.black, Color.white, map[j,i]);
-			}
+			   	colours[i*width+j] = Color.Lerp(Color.black, Color.white, map[j,i]);
+
+                // if (map[j, i] > 1){
+                //     // colours[i * width + j] += new Color(1, 0, 0, 0.15f);
+                //     colours[i * width + j] = Color.Lerp(colours[i * width + j], Color.red, 0.05f);
+
+                // }
+                // else if (map[j, i] < 0){
+                //     // colours[i * width + j] += new Color(0, 0, 1, 0.15f);
+				// 	colours[i * width + j] = Color.Lerp(colours[i * width + j], Color.blue, 0.2f);
+                // }
+
+            }
             
         
         

@@ -3,14 +3,16 @@
 	"editor.fontSize": 11,
 	"editor.lineNumbers": true,
     "editor.quickSuggestions": true,
-	"editor.quickSuggestionsDelay": 10,
-	// "editor.formatOnType": false,
+	"editor.quickSuggestionsDelay": 50,
+	"editor.formatOnType": true,
 	"editor.renderWhitespace": true,
 	"editor.referenceInfos": false,
 	"git.enabled": false,
 	"editor.scrollBeyondLastLine": true,
     "editor.suggestOnTriggerCharacters": true,
     "editor.selectionHighlight": true,
+    "editor.insertSpaces": false,
+    "editor.roundedSelection": true,
     
     "window.openFilesInNewWindow": false,
 	
