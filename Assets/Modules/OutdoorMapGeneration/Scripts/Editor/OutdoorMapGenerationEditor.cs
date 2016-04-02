@@ -5,10 +5,9 @@ using UnityEditor;
 
 [CustomEditor (typeof (OutdoorMapGeneration))]
 public class OutdoorMapGenerationEditor : Editor {
-    OutdoorMapGeneration generator;
     
     public override void OnInspectorGUI() {
-        generator = (OutdoorMapGeneration) target;
+        OutdoorMapGeneration generator = (OutdoorMapGeneration) target;
         
         if(DrawDefaultInspector()) {
             if(generator.isAutoUpdatable)
@@ -17,8 +16,9 @@ public class OutdoorMapGenerationEditor : Editor {
         }
         
         
-        if(GUILayout.Button("Generate now"))
+        if(GUILayout.Button("Generate now")) {
             generator.Generate();
+        }
         
     }
 

@@ -4,12 +4,15 @@
 	"editor.lineNumbers": true,
     "editor.quickSuggestions": true,
 	"editor.quickSuggestionsDelay": 10,
-	"editor.formatOnType": false,
+	// "editor.formatOnType": false,
 	"editor.renderWhitespace": true,
 	"editor.referenceInfos": false,
 	"git.enabled": false,
 	"editor.scrollBeyondLastLine": true,
     "editor.suggestOnTriggerCharacters": true,
+    "editor.selectionHighlight": true,
+    
+    "window.openFilesInNewWindow": false,
 	
 	"files.exclude":
 	{
