@@ -37,6 +37,7 @@ public class OutdoorMapRenderer2DTest : MonoBehaviour {
                 
             }
 
+        texture.wrapMode = TextureWrapMode.Clamp;
         texture.SetPixels(colours);
         texture.Apply();
         
