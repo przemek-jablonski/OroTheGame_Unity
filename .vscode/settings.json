@@ -1,26 +1,28 @@
 {
-	
-	"editor.fontSize": 11,
-	"editor.lineNumbers": true,
-    "editor.quickSuggestions": true,
-	"editor.quickSuggestionsDelay": 50,
-	"editor.formatOnType": true,
-	"editor.renderWhitespace": true,
-	"editor.referenceInfos": false,
-	"git.enabled": false,
-	"editor.scrollBeyondLastLine": true,
-    "editor.suggestOnTriggerCharacters": true,
-    "editor.selectionHighlight": true,
+    "editor.fontFamily": "menlo",
+    "editor.fontSize": 11,
+    "editor.lineNumbers": true,
+    "editor.rulers": [],
     "editor.insertSpaces": false,
-    "editor.roundedSelection": true,
+    "editor.scrollBeyondLastLine": true,
     
-    "window.openFilesInNewWindow": false,
+    "editor.quickSuggestions": true,
+    "editor.quickSuggestionsDelay": 10,
 	
+	"editor.referenceInfos": false,
+	"editor.formatOnType": true,
+	
+	"editor.fontLigatures": true,
+    
+    
 	"files.exclude":
 	{
 		"**/.DS_Store":true,
 		"**/.git":true,
+		"**/.gitignore":true,
+		"**/.gitattributes":true,
 		"**/.gitmodules":true,
+		"**/.svn":true,
 		"**/*.booproj":true,
 		"**/*.pidb":true,
 		"**/*.suo":true,

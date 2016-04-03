@@ -16,6 +16,8 @@ public class OutdoorMapGeneration : MonoBehaviour {
     public float lacunarity = 1;
 	
     public Vector2 scroll;
+
+    public FilterMode textureFiltering = FilterMode.Point;
     public bool useRandomSeed = false;
     public bool scrollable = true;
     public bool autoUpdate = true;
@@ -26,7 +28,7 @@ public class OutdoorMapGeneration : MonoBehaviour {
         
 
         OutdoorMapRenderer2DTest renderer = FindObjectOfType<OutdoorMapRenderer2DTest>();
-        renderer.DrawTexture(this.GeneratorChooser());
+        renderer.DrawTexture(this.GeneratorChooser(), textureFiltering);
     }
 	
 	private float[,] GeneratorChooser() {
@@ -48,8 +50,8 @@ public class OutdoorMapGeneration : MonoBehaviour {
 	void OnValidate() {
 		if (mapX < 10) mapX = 10;
 		if (mapY < 10) mapY = 10;
+		if (noiseScale <= 0) noiseScale = 0.001f;
     }
-    
-    
-    
+	
+	
 }
