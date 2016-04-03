@@ -21,6 +21,8 @@ FIXX: enemy bleeding from wrong side (from back-side, not spawning on front)
 
 IMPLEMENT: 3 splashes (enemy, bullet, woodbox) needs to inherit common functionality from one parent class
 
+ERRORZ: nullpointerexception in CharacterControllerScript, error in mavmesh
+
 + Actors hit by bullet must 
 	a) Be coloured red for few seconds
 	b) maybe shake a little (mainly in -shotVector)
