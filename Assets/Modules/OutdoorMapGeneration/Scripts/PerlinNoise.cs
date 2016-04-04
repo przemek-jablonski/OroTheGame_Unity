@@ -3,6 +3,76 @@ using System.Collections;
 
 namespace Noises {
 	
+	public class PerlinNoiseToUpdate {
+		
+		
+        private float[,] noiseMap;
+        private int dimensionX, dimensionY;
+        private float maxNoiseHeight;
+        private float minNoiseHeight;
+
+        private float noiseScale;
+		
+        private float randomSeed;
+        
+
+
+        public PerlinNoiseToUpdate(int dimensionX, int dimensionY, int seed, float scale) {
+            maxNoiseHeight = int.MinValue;
+            minNoiseHeight = int.MaxValue;
+
+            this.dimensionX = dimensionX;
+			this.dimensionY = dimensionY;
+            randomSeed = seed;
+            noiseScale = scale;
+			
+        }
+		
+		// public PerlinNoise InsertNoiseValues(float [,] noiseValues) {
+		// 	if (noiseValues.GetLength(0) != dimensionX || noiseValues.GetLength(1) != dimensionY) throw (new DimensionMismatchException(noiseValues));
+			
+        //     for (int x = 0; x < dimensionX; x++) {
+		// 		for (int y = 0; y < dimensionY; y++) {
+        //             noiseMap[x, y] = noiseValues[x, y];
+        //         }
+		// 	}
+			
+			
+        //     return this;
+        // }
+		
+		public float[,] getNoiseMap() {
+            return noiseMap;
+        }
+		
+		
+		public int[] getNoiseMapDimensions() {
+			return new int[2]{dimensionX, dimensionY};
+        }
+		
+		public int getNoiseMapDimensionX() {
+            return dimensionX;
+        }
+		
+		public int getNoiseMapDimensionY() {
+            return dimensionY;
+        }		
+
+
+    }
+	
+	
+	public class SimplexNoise {
+		//different variant of perlin noise
+	}
+	
+	
+	public class StaticNoise {
+		//for usage in cellular automata
+	}
+	
+	
+	
 	public static class PerlinNoise {
 
         //TODO:

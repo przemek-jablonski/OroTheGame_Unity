@@ -13,6 +13,8 @@
 	"editor.formatOnType": true,
 	
 	"editor.fontLigatures": true,
+	
+	"window.openFilesInNewWindow": false,
     
     
 	"files.exclude":

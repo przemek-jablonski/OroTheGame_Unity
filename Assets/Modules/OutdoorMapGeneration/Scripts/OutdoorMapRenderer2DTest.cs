@@ -18,8 +18,7 @@ public class OutdoorMapRenderer2DTest : MonoBehaviour {
         int height = map.GetLength(1);
         
         Texture2D texture = new Texture2D(width, height);
-        // texture.filterMode = FilterMode.Point;
-		texture.filterMode = textureFilering;
+		
 
 
         Color[] colours = new Color[width * height];
@@ -37,6 +36,7 @@ public class OutdoorMapRenderer2DTest : MonoBehaviour {
                 
             }
 
+		texture.filterMode = textureFilering;
         texture.wrapMode = TextureWrapMode.Clamp;
         texture.SetPixels(colours);
         texture.Apply();
