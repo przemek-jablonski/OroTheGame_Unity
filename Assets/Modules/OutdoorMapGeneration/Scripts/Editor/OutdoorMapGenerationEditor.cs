@@ -16,8 +16,12 @@ public class OutdoorMapGenerationEditor : Editor {
         }
         
         
-        if(GUILayout.Button("Generate now")) {
+        if (GUILayout.Button("Generate texture")) {
             generator.Generate();
+        }
+		
+		if (GUILayout.Button("Generate mesh")) {
+            generator.GenerateMesh();
         }
         
     }

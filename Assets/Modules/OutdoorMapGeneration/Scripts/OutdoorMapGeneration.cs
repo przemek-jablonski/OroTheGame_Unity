@@ -2,7 +2,11 @@
 using System.Collections;
 using Noises;
 
+
 public class OutdoorMapGeneration : MonoBehaviour {
+	
+	// this shit should be called OutdoorMapController
+	// (because that's what it is)
 
     public int mapX = 50;
     public int mapY = 50;
@@ -12,7 +16,7 @@ public class OutdoorMapGeneration : MonoBehaviour {
 	public int octaves = 3;
     [Range(0.001f, 5)]
     public float persistence = 1;
-    [Range(1, 6)]
+    [Range(1, 10)]
     public float lacunarity = 1;
 	
     public Vector2 scroll;
@@ -23,16 +27,20 @@ public class OutdoorMapGeneration : MonoBehaviour {
     public bool autoUpdate = true;
 
 
-
     public void Generate() {
-        
-
         OutdoorMapRenderer2DTest renderer = FindObjectOfType<OutdoorMapRenderer2DTest>();
-        renderer.DrawTexture(this.GeneratorChooser(), textureFiltering);
+        renderer.DrawTexture(this.GeneratorChooser(), textureFiltering);		
+    }
+	
+	public void GenerateMesh() {
+		OutdoorMapRenderer2DTest renderer = FindObjectOfType<OutdoorMapRenderer2DTest>();
+        renderer.RenderMesh(
+				MeshGenerator.GenerateTerrainMesh(this.GeneratorChooser()),
+        		renderer.DrawTexture(this.GeneratorChooser(), textureFiltering));
+		
     }
 	
 	private float[,] GeneratorChooser() {
-		
 		if(useRandomSeed) {
 			System.Random random = new System.Random();
 			if(scrollable)

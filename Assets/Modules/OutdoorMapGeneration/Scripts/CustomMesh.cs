@@ -64,6 +64,8 @@ public class CustomMesh {
 	}
 	
 	
+	
+	
 	//adding single triangle to mesh
 	public Vector3 addTriangle(int verticeA, int verticeB, int verticeC) {
         arrayTriangles[trianglesCount] = verticeA;
@@ -116,6 +118,5 @@ public class CustomMesh {
 	public Mesh GetElementaryMesh() {
         return elementaryMesh;
     }
-	
 	
 }

@@ -67,8 +67,8 @@ public class TerrainType {
 		terrainName = "mountains";
         terrainHeightLower = 0.90f;
 		terrainHeightUpper = 1;
-        terrainColorLower = Color.black;
-        terrainColorUpper = Color.black;
+        terrainColorLower = new Color(0.55f, 0.55f, 0.55f, 1);
+        terrainColorUpper = new Color(0.20f, 0.25f, 0.20f, 1);
         return this;
 	}
 	
