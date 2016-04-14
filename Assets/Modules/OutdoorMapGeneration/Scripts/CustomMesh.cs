@@ -8,9 +8,10 @@ public class CustomMesh {
 	private int 		meshDimensionY;
 
 	//mesh data - holders for triangles, vertices, UVs
-    private int[] 		arrayTriangles;
-    private Vector3[] 	arrayVertices;
-    private Vector2[] 	arrayUVs;
+	//REFACTOR PUBLIC -> PRIVATE, DO ACCESSORS
+    public int[] 		arrayTriangles;
+    public Vector3[] 	arrayVertices;
+    public Vector2[] 	arrayUVs;
 
     //detail count (triangles and vertices count)
     private int 		trianglesCount;
