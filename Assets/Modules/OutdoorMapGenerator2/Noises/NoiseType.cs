@@ -1,0 +1,6 @@
+
+public enum NoiseType {
+	RANDOM_NOISE,
+	PERLIN_NOISE,
+	SIMPLEX_NOISE
+}
