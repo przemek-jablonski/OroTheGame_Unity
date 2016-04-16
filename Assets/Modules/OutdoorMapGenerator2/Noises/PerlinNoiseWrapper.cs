@@ -15,7 +15,7 @@ public static class PerlinNoiseWrapper{
 
 
 	//generation parameters:
-    private static Vector2Int 	dimensions;
+    private static Vector2Int   mapDimensions;
     private static Vector2Int   mapScale;
     private static bool 		useRandomSeed;
     private static bool 		randomSampleOffsets;
@@ -33,7 +33,8 @@ public static class PerlinNoiseWrapper{
     private static float 		 valueX = 0;
 	private static float 		 valueY = 0;
     private static float 		 valuePerlin = 0;
-	private static float 		 minHeight = float.MaxValue;
+    private static float         allSamplesValuePerlin = 0;
+    private static float 		 minHeight = float.MaxValue;
 	private static float 		 maxHeight = float.MinValue;
 
 
@@ -66,7 +67,6 @@ public static class PerlinNoiseWrapper{
             Debug.LogError("SENT DIMENSIONS ARE NOT EQUALLY VALUED WITH DIMENSIONS INSIDE PERLIN NOISE TABLE!"); return null;
         }
 
-        dimensions = _dimensions;
         mapScale = _mapScale;
         useRandomSeed = _useRandomSeed;
         randomSampleOffsets = randomOffsets;
@@ -87,8 +87,11 @@ public static class PerlinNoiseWrapper{
         Debug.Log("PerlinNoiseWrapper: GenerateNoiseValues()");
 
         ResetGenerationAttributes();
-        
-		if(useRandomSeed == true || cohesivenessPercent != 1f) { 
+        mapDimensions = perlinNoise.GetTableDimensions();
+
+        Debug.Log("useRandomSeed: " + useRandomSeed);
+        // if(useRandomSeed == true || cohesivenessPercent != 1f) {
+        if(useRandomSeed) { 
 			ReinstantiateRandomizer(); 
 		}
         
@@ -102,8 +105,9 @@ public static class PerlinNoiseWrapper{
 		}
         
 
-        for (int x = 0; x < perlinNoise.GetTableDimensions().GetVector()[0]; ++x) {
-            for (int y = 0; y < perlinNoise.GetTableDimensions().GetVector()[1]; ++y) {
+        // for (int x = 0; x < perlinNoise.GetTableDimensions().GetVector()[0]; ++x) {
+        for (int x = 0; x < mapDimensions.GetVector()[0]; ++x) {
+            for (int y = 0; y < mapDimensions.GetVector()[1]; ++y) {
 				// ??
                 // minHeight = float.MaxValue;
                 // maxHeight = float.MinValue;
@@ -114,25 +118,27 @@ public static class PerlinNoiseWrapper{
 
 
                 for (int s = 0; s < samples; ++s) {
-                    valueX = GeneratePerlinNoiseCoord(x, manualOffset.x);
-					valueY = GeneratePerlinNoiseCoord(y, manualOffset.y);
+                    valueX = GeneratePerlinNoiseCoord(x, mapDimensions.GetVector()[0], manualOffset.x);
+					valueY = GeneratePerlinNoiseCoord(y, mapDimensions.GetVector()[1], manualOffset.y);
 
-					if(randomSampleOffsets) {
-                        valueX += randomSampleOffsetArray[s].x;
-						valueY += randomSampleOffsetArray[s].y;
-                    }
-                    valuePerlin += Mathf.PerlinNoise(valueX, valueY);
-					
+					// if(randomSampleOffsets) {
+                    //     valueX += randomSampleOffsetArray[s].x;
+					// 	valueY += randomSampleOffsetArray[s].y;
+                    // }
+                    valuePerlin = Mathf.PerlinNoise(valueX, valueY);
+                    
+                    allSamplesValuePerlin += valuePerlin * amplitude;
                     amplitude *= persistence;
                     frequency *= lacunarity;
                 }
 				
-				if (valuePerlin > maxHeight) maxHeight = valuePerlin;
-				else if (valuePerlin < minHeight) minHeight = valuePerlin; 
+				if (allSamplesValuePerlin > maxHeight) maxHeight = allSamplesValuePerlin;
+				else if (allSamplesValuePerlin < minHeight) minHeight = allSamplesValuePerlin; 
 				
-                valuePerlin = Mathf.InverseLerp(minHeight, maxHeight, valuePerlin);
-				
-                perlinNoise.SetNoiseTableCell(x, y, valuePerlin);
+                allSamplesValuePerlin = Mathf.InverseLerp(minHeight, maxHeight, allSamplesValuePerlin);
+
+                // perlinNoise.SetNoiseTableCell(x, y, allSamplesValuePerlin);
+                perlinNoise.noiseTable[x, y] = allSamplesValuePerlin;
 
             }
         }
@@ -143,16 +149,9 @@ public static class PerlinNoiseWrapper{
     }
 	
 
-  	private static float GeneratePerlinNoiseCoord(float baseValue, float offsetValue) {
-        Debug.Log("PerlinNoiseWrapper: GeneratePerlinNoiseCoord()");
-        if (cohesivenessPercent != 1f) {
-            float randomElement = (float)random.NextDouble() * cohesivenessPercent;
-            Debug.Log("PerlinNoiseWrapper: GeneratePerlinNoiseCoord() after");
-			return (((baseValue - dimensions.GetVector()[0]) / 2f) / noiseScale * frequency ) + offsetValue + randomElement;
-        }
-        Debug.Log("PerlinNoiseWrapper: GeneratePerlinNoiseCoord() after");
-		return (((baseValue - dimensions.GetVector()[0]) / 2f) / noiseScale * frequency) + offsetValue;
-	}
+  	private static float GeneratePerlinNoiseCoord(float baseValue, float mapDimension, float offsetValue) {
+        return (baseValue - mapDimension / 2f) / noiseScale * frequency + offsetValue;
+    }
 	
 	
 	private static void ResetGenerationAttributes() {
@@ -169,10 +168,9 @@ public static class PerlinNoiseWrapper{
 	
   
 	private static void ReinstantiateRandomizer() {
-        Debug.Log("PerlinNoiseWrapper: ReinstantiateRandomizer()...");
-        int seed = Random.seed;
-		random = new System.Random(seed);
-		Debug.Log("Randomizer reinstantiated with seed: [" + seed + "]");
+        Debug.Log("PerlinNoiseWrapper: ReinstantiateRandomizer()"); 
+        random = new System.Random(random.Next());
+		// Debug.Log("Randomizer reinstantiated with seed: [" + seed + "]");
 	}
 	
 

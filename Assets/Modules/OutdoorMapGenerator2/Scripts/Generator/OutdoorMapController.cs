@@ -70,7 +70,7 @@ public class OutdoorMapController : MonoBehaviour {
         PerlinNoiseWrapper.GeneratePerlinNoise(
             new Vector2Int(mapDimensionX, mapDimensionY),
 			new Vector2Int(mapScaleX, mapScaleY),
-            false,
+            useRandomSeed,
 			false,
             cohesiveness,
             noiseScale,

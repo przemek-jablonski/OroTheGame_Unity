@@ -3,7 +3,7 @@
 namespace OroNoises {
     public class Noise  {
         
-        private float[,]     noiseTable;
+        public float[,]     noiseTable;
         private int         mapDimensionsX;
         private int         mapDimensionsY;
         private NoiseType   noiseType { get; set; }
@@ -29,8 +29,6 @@ namespace OroNoises {
         }
         
        
-        
-        
         public float[,] GetNoiseTable() {
             return noiseTable;
         } 
