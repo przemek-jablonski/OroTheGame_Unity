@@ -14,7 +14,9 @@ public class OutdoorMapController : MonoBehaviour {
 
     public int mapDimensionX = 75;
 	public int mapDimensionY = 75;
-	public Vector2 scrolling;
+    public int mapScaleX = 75;
+    public int mapScaleY = 75;
+    public Vector2 scrolling;
 
 	[Range (0,35)]
     public float noiseScale = 0.5f;
@@ -36,7 +38,8 @@ public class OutdoorMapController : MonoBehaviour {
     public bool scrollable = true;
     public bool rndSampleOffsets = false;
     public bool autoUpdate = false;
-	public FilterMode textureFiltering = FilterMode.Point;
+    public bool customMapScale = false;
+    public FilterMode textureFiltering = FilterMode.Point;
 	
 	
 	public void OnValidate() {
@@ -45,19 +48,41 @@ public class OutdoorMapController : MonoBehaviour {
 		if (noiseScale <= 0) noiseScale = 0.001f;
 		if (persistence <= 0) persistence = 0.0001f;
 		if (cohesiveness < 0f || cohesiveness > 1f) cohesiveness = 1f;
+		if (!customMapScale) {
+			if (mapDimensionX != mapScaleX) mapScaleX = mapDimensionX;
+			if (mapDimensionY != mapScaleY) mapScaleY = mapDimensionY;
+        }
     } 
-	
+		
+	private void GeneratePerlinNoise() {
+        OroNoises.Noise perlinNoise = new OroNoises.Noise(mapDimensionX, mapDimensionY);
+        PerlinNoiseWrapper.InstantiateNoise();
+        PerlinNoiseWrapper.GeneratePerlinNoise(
+            new Vector2Int(mapDimensionX, mapDimensionY),
+			new Vector2Int(mapScaleX, mapScaleY),
+            false,
+			false,
+            cohesiveness,
+            noiseScale,
+            samples,
+            persistence,
+            lacunarity,
+            scrolling);
 
-	public void GenerateNoise() {
-		
-	}
+    }
 	
-	public void GenerateTexture() {
-		
+	public void GenerateNonColourTexture() {
+        RenderingUtility rendering = FindObjectOfType<RenderingUtility>();
+        rendering.CreateNonColourTexture(PerlinNoiseWrapper.GetNoiseClass(), new Vector2Int(mapScaleX, mapScaleY), textureFiltering);
+
+    }
+	
+	public void GenerateColourfulTexture() {
+		//...
 	}
 
 	public void GenerateMesh() {
-		
+		//...
 	}
 
 }

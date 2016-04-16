@@ -15,12 +15,15 @@ public class OutdoorMapGeneratorView : Editor {
 		}
 		
 		
-		if (GUILayout.Button("Generate Texture"))
-            outdoorMapController.GenerateTexture();
+		if (GUILayout.Button("Generate Texture")) {
+            outdoorMapController.GenerateNonColourTexture();
+        	}
        
 		
-		if (GUILayout.Button("Generate Mesh"))
-            outdoorMapController.GenerateMesh();
+		if (GUILayout.Button("Generate Mesh")) {
+			//...
+		}
+            
         
 	}
 	

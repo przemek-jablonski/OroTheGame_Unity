@@ -17,7 +17,8 @@ public static class PerlinNoiseWrapper{
 
 	//generation parameters:
     private static Vector2Int 	dimensions;
-	private static bool 		useRandomSeed;
+    private static Vector2Int   mapScale;
+    private static bool 		useRandomSeed;
     private static bool 		randomSampleOffsets;
     private static float 		 cohesivenessPercent;
     private static float 		 noiseScale;
@@ -39,7 +40,6 @@ public static class PerlinNoiseWrapper{
 
 
 
-
     static PerlinNoiseWrapper() {
         random = new System.Random();
         ResetGenerationAttributes();
@@ -47,25 +47,26 @@ public static class PerlinNoiseWrapper{
     }
 	
 	
-	public static void InstantiateNoise(Vector2Int mapDimensions) {
-        perlinNoise = new OroNoises.Noise(mapDimensions);
+	
+	public static void InstantiateNoise() {
+        perlinNoise = new OroNoises.Noise(perlinNoise.GetTableDimensions());
         FillNoiseWithZeros();
 
         Debug.Log("Instantiated noise instance inside PerlinNoiseWrapper");
     }
 	
 	
-	
-	public static OroNoises.Noise GeneratePerlinNoise(Vector2Int _dimensions, bool _useRandomSeed, bool randomOffsets, float _cohesivenessPercent, float _noiseScale, int _samples, float _persistence, float _lacunarity, Vector2 _manualOffset) {
+	//updating generation parameters and generating Perlin noise values:
+	public static OroNoises.Noise GeneratePerlinNoise(Vector2Int _dimensions, Vector2Int _mapScale, bool _useRandomSeed, bool randomOffsets, float _cohesivenessPercent, float _noiseScale, int _samples, float _persistence, float _lacunarity, Vector2 _manualOffset) {
+		
 		//this must fail someday, so this condition is checked here
 		//TODO: change this conditional statement to custom EXCEPTION
 		if(dimensions.GetVector()[0] != mapDimensions.GetVector()[0] || dimensions.GetVector()[1] != mapDimensions.GetVector()[1]) {
-            Debug.Log("SENT DIMENSIONS ARE NOT EQUALLY VALUED WITH DIMENSIONS INSIDE PERLIN NOISE TABLE!");
-            return null;
+            Debug.Log("SENT DIMENSIONS ARE NOT EQUALLY VALUED WITH DIMENSIONS INSIDE PERLIN NOISE TABLE!"); return null;
         }
 
-		//updating generation parameters
         dimensions = _dimensions;
+        mapScale = _mapScale;
         useRandomSeed = _useRandomSeed;
         randomSampleOffsets = randomOffsets;
         cohesivenessPercent = _cohesivenessPercent;
@@ -76,19 +77,19 @@ public static class PerlinNoiseWrapper{
         manualOffset = _manualOffset;
 		
         GenerateNoiseValues();
-
         return perlinNoise;
     }
 	
 	
-	//static method for inserting actual randomized values into Noise (perlinNoise) class
+	//static method for inserting randomized values into Noise (perlinNoise) class
 	private static OroNoises.Noise GenerateNoiseValues() {
 		
 		ResetGenerationAttributes();
 		if(useRandomSeed == true || cohesivenessPercent != 1f) { 
 			ReinstantiateRandomizer(); 
 		}
-		if(randomSampleOffsets){
+		
+		if(randomSampleOffsets) {
             randomSampleOffsetArray = new Vector2[samples];
             for (int s = 0; s < samples; s++) {
                 randomSampleOffsetArray[s].x = random.Next(-1000);
@@ -131,8 +132,10 @@ public static class PerlinNoiseWrapper{
         }
 		
 		Debug.Log("Generated noise values inside PerlinNoiseWrapper");
+        Debug.Log("Max Value was: " + maxHeight + ", Min Value was: " + minHeight);
         return perlinNoise;
     }
+	
 
   	private static float GeneratePerlinNoiseCoord(float baseValue, float offsetValue) {
 		 if (cohesivenessPercent != 1f) {
@@ -142,6 +145,7 @@ public static class PerlinNoiseWrapper{
         
 		return (((baseValue - mapDimensions.GetVector()[0]) / 2f) / noiseScale * frequency) + offsetValue;
 	}
+	
 	
 	private static void ResetGenerationAttributes() {
         minHeight = float.MaxValue;
@@ -153,12 +157,14 @@ public static class PerlinNoiseWrapper{
         valuePerlin = 0;
         randomSampleOffsetArray = new Vector2[samples];
     }
+	
   
 	private static void ReinstantiateRandomizer() {
 		int seed = Random.seed;
 		random = new System.Random(seed);
 		Debug.Log("Randomizer reinstantiated with seed: [" + seed + "]");
 	}
+	
 
 
     public static float[,] GetNoiseTable() {
@@ -166,7 +172,7 @@ public static class PerlinNoiseWrapper{
     }
 	
 	
-	public static float[,] FillNoiseWithZeros() {
+	private static float[,] FillNoiseWithZeros() {
         int noiseTableDimensionsX = perlinNoise.GetTableDimensions().GetVector()[0];
 		int noiseTableDimensionsY = perlinNoise.GetTableDimensions().GetVector()[1];
         float[,] zeroedNoiseTable = new float[noiseTableDimensionsX, noiseTableDimensionsY];
@@ -179,5 +185,10 @@ public static class PerlinNoiseWrapper{
         return GetNoiseTable();
     }
 	
+    
+    public static OroNoises.Noise GetNoiseClass() {
+        return perlinNoise;
+    }
+    
 
 }
