@@ -7,8 +7,9 @@ public class RenderingUtility : MonoBehaviour {
 	
 	
 	public Texture2D CreateNonColourTexture(OroNoises.Noise noise, Vector2Int customScale, FilterMode textureFiltering) {
+        Debug.Log("RenderingUtility: CreateNonColourTexture()");
 
-        textureRenderer = FindObjectOfType<MeshRenderer>();
+        //    textureRenderer = FindObjectOfType<MeshRenderer>();
 
         float[,] noiseTable = noise.GetNoiseTable();
         int noiseDimensionX = noise.GetTableDimensions().GetVector()[0];

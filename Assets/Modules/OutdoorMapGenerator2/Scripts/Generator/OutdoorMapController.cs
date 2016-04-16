@@ -53,10 +53,20 @@ public class OutdoorMapController : MonoBehaviour {
 			if (mapDimensionY != mapScaleY) mapScaleY = mapDimensionY;
         }
     } 
+	
+	public void GenerateNonColourTexture() {
+		//bool isRenderingUtilityInstantiated
+		//if so, do not reflectively look for it below every time!
+		Debug.Log("Controller: GenerateNonColourTexture (callback from button)");
+        RenderingUtility renderingUtility = FindObjectOfType<RenderingUtility>();
+        GeneratePerlinNoise();
+        renderingUtility.CreateNonColourTexture(PerlinNoiseWrapper.GetNoiseClass(), new Vector2Int(mapScaleX, mapScaleY), textureFiltering);
+    }
 		
 	private void GeneratePerlinNoise() {
-        OroNoises.Noise perlinNoise = new OroNoises.Noise(mapDimensionX, mapDimensionY);
-        PerlinNoiseWrapper.InstantiateNoise();
+        Debug.Log("Controller: GeneratePerlinNoise()");
+        // OroNoises.Noise perlinNoise = new OroNoises.Noise(mapDimensionX, mapDimensionY);
+        PerlinNoiseWrapper.InstantiateNoise(new Vector2Int(mapDimensionX, mapDimensionY));
         PerlinNoiseWrapper.GeneratePerlinNoise(
             new Vector2Int(mapDimensionX, mapDimensionY),
 			new Vector2Int(mapScaleX, mapScaleY),
@@ -71,11 +81,7 @@ public class OutdoorMapController : MonoBehaviour {
 
     }
 	
-	public void GenerateNonColourTexture() {
-        RenderingUtility rendering = FindObjectOfType<RenderingUtility>();
-        rendering.CreateNonColourTexture(PerlinNoiseWrapper.GetNoiseClass(), new Vector2Int(mapScaleX, mapScaleY), textureFiltering);
 
-    }
 	
 	public void GenerateColourfulTexture() {
 		//...

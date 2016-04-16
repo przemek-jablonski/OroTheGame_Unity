@@ -16,6 +16,7 @@ public class OutdoorMapGeneratorView : Editor {
 		
 		
 		if (GUILayout.Button("Generate Texture")) {
+            Debug.Log("View: button with texture clicked");
             outdoorMapController.GenerateNonColourTexture();
         	}
        
