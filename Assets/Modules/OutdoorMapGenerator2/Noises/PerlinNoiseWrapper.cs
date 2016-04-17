@@ -50,10 +50,8 @@ public static class PerlinNoiseWrapper{
 	
 	public static void InstantiateNoise(Vector2Int noiseDimensions) {
         
-        Debug.Log("BEFORE Instantiated noise instance inside PerlinNoiseWrapper");
         perlinNoise = new OroNoises.Noise(noiseDimensions);
         FillNoiseWithZeros();
-
         Debug.Log("Instantiated noise instance inside PerlinNoiseWrapper");
     }
 	
@@ -118,8 +116,8 @@ public static class PerlinNoiseWrapper{
 
 
                 for (int s = 0; s < samples; ++s) {
-                    valueX = GeneratePerlinNoiseCoord(x, mapDimensions.GetVector()[0], manualOffset.x);
-					valueY = GeneratePerlinNoiseCoord(y, mapDimensions.GetVector()[1], manualOffset.y);
+                    valueX = GeneratePerlinNoiseCoord(x, mapDimensions.GetVector()[0], randomSampleOffsetArray[s].x,manualOffset.x);
+					valueY = GeneratePerlinNoiseCoord(y, mapDimensions.GetVector()[1], randomSampleOffsetArray[s].y,manualOffset.y);
 
 					// if(randomSampleOffsets) {
                     //     valueX += randomSampleOffsetArray[s].x;
@@ -149,8 +147,8 @@ public static class PerlinNoiseWrapper{
     }
 	
 
-  	private static float GeneratePerlinNoiseCoord(float baseValue, float mapDimension, float offsetValue) {
-        return (baseValue - mapDimension / 2f) / noiseScale * frequency + offsetValue;
+  	private static float GeneratePerlinNoiseCoord(float baseValue, float mapDimension, float randomOffsetValue, float manualOffsetValue) {
+        return (baseValue - mapDimension / 2f) / noiseScale * frequency + randomOffsetValue +manualOffsetValue;
     }
 	
 	

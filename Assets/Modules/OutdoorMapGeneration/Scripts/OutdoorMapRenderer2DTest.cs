@@ -21,8 +21,12 @@ public class OutdoorMapRenderer2DTest : MonoBehaviour {
         Texture2D texture = new Texture2D(width, height);
         Color[] colours = new Color[width * height];
 
-        for (int i = 0; i < height; i++) {
+        // for (int i = 0; i < height; i++) {
+        //     for (int j = 0; j < width; j++) {
+            
             for (int j = 0; j < width; j++) {
+                for (int i = 0; i < height; i++) {
+        
 
                 // colours[i*width+j] = Color.Lerp(Color.black, Color.white, map[j,i]);
                 colours[i * width + j] = DrawTerrainColour(map[j, i]);
@@ -38,16 +42,16 @@ public class OutdoorMapRenderer2DTest : MonoBehaviour {
         texture.SetPixels(colours);
         texture.Apply();
         
-        textureRenderer.sharedMaterial.mainTexture = texture;
-        textureRenderer.transform.localScale = new Vector3(width, 1, height);
+        // textureRenderer.sharedMaterial.mainTexture = texture;
+        // textureRenderer.transform.localScale = new Vector3(width, 1, height);
 
         return texture;
         
     }
 	
 	public void RenderMesh(CustomMesh customMesh, Texture2D heightTexture) {
-        meshRenderer.sharedMaterial.mainTexture = heightTexture;
         meshFilter.sharedMesh = customMesh.InitializeMesh();
+        meshRenderer.sharedMaterial.mainTexture = heightTexture;
     }
 	
 	

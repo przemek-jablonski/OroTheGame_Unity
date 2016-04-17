@@ -35,10 +35,9 @@ public class CustomMesh {
         this.meshDimensionX = meshDimensionX;
 		this.meshDimensionY = meshDimensionY;
 		
-        arrayVertices = new Vector3[(meshDimensionX * meshDimensionY)];
-        int arrayTrianglesCount = ((meshDimensionX - 1) * (meshDimensionY - 1)) * 6;
-        arrayTriangles = new int[arrayTrianglesCount];
-        arrayUVs = new Vector2[(meshDimensionX * meshDimensionY)];
+        arrayVertices = new Vector3 [ meshDimensionX * meshDimensionY ];
+        arrayUVs = new Vector2 [ meshDimensionX * meshDimensionY ];
+        arrayTriangles = new int [ (meshDimensionX-1)*(meshDimensionY-1)*6 ];
     }
 	
 	

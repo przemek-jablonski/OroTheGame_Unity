@@ -99,7 +99,7 @@ namespace Noises {
 					
 					float amplitude = 1;
 					float frequency = 1;
-					float noiseHeight = 0;
+					float noiseHeight = 0;   
 
 					for (int o = 0; o < octaves; ++o) {
 						sampleX = (x - mapX/2f) / scale * frequency + octaveOffsets[o].x;
@@ -123,8 +123,30 @@ namespace Noises {
                         maxNormalizedHeight = normalizedHeight;
 					else if (normalizedHeight < minNormalizedHeight)
                         minNormalizedHeight = normalizedHeight;
-
+						
+						
                     map[x, y] = normalizedHeight;
+					
+					
+					//debugging purposes only:
+					if( x == 0 || y == 0
+					|| x == 1 || y == 1
+					|| x == 2 || y == 2
+					|| x == 3 || y == 3
+					|| x == 4 || y == 4) 
+                        map[x, y] = 1f;
+                        
+                     else {
+						 for (int i =0; i <30; ++i) {
+                            map[i + 15, i + 15] = 0f;
+							map[i + 15, i + 15 + 1] = 0f;
+							map[i + 15 + 1, i + 15 + 1] = 0f;
+							map[i + 15 + 1, i + 15] = 0f;
+                        }
+					 }
+					
+						
+                    
 
                 }
 			} 
