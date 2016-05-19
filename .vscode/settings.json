@@ -15,6 +15,9 @@
 	"editor.fontLigatures": true,
 	
 	"window.openFilesInNewWindow": false,
+	"editor.autoClosingBrackets": true,
+	"editor.acceptSuggestionOnEnter": true,
+	"editor.selectionHighlight": true,
     
     
 	"files.exclude":

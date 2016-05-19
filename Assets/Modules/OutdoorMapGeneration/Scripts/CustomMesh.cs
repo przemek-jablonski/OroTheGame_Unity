@@ -87,14 +87,14 @@ public class CustomMesh {
     }
 	
 	//adding single vertice to a mesh
-	public Vector3 addVertice(int x, float height, int y) {
-        arrayVertices[verticesCount].x = x;
-        arrayVertices[verticesCount].y = height;
-        arrayVertices[verticesCount].z = y;
-        ++verticesCount;
+	// public Vector3 addVertice(int x, float height, int y) {
+    //     arrayVertices[verticesCount].x = x;
+    //     arrayVertices[verticesCount].y = height;
+    //     arrayVertices[verticesCount].z = y;
+    //     ++verticesCount;
 
-        return arrayVertices[(verticesCount-1)];
-    } 
+    //     return arrayVertices[(verticesCount-1)];
+    // } 
 	
 	//adding a single UV to mesh
 	public Vector2 addUV(float x, float y) {

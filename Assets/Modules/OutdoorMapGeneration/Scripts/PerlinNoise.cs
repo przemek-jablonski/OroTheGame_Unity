@@ -94,8 +94,9 @@ namespace Noises {
 			
 			for (int i=0 ; i < octaves; ++i) octaveOffsets[i] = new Vector2(random.Next(-10000, 1000) + manualOffset.x, random.Next(-1000, 10000) + manualOffset.y);
 
-			for (int x = 0; x < mapX; ++x) {
-				for (int y = 0; y < mapY; ++y) {
+			for (int y = 0; y < mapY; ++y) {
+				for (int x = 0; x < mapX; ++x) {
+				
 					
 					float amplitude = 1;
 					float frequency = 1;
@@ -128,30 +129,61 @@ namespace Noises {
                     map[x, y] = normalizedHeight;
 					
 					
-					//debugging purposes only:
-					if( x == 0 || y == 0
-					|| x == 1 || y == 1
-					|| x == 2 || y == 2
-					|| x == 3 || y == 3
-					|| x == 4 || y == 4) 
-                        map[x, y] = 1f;
+					//DEBUGGING PURPOSES ONLY!
+					
+					
+					// if( x == 0 || y == 0
+					// || x == 1 || y == 1
+					// || x == 2 || y == 2
+					// || x == 3 || y == 3
+					// || x == 4 || y == 4) 
+                    //     map[x, y] = 1f;
                         
-                     else {
-						 for (int i =0; i <30; ++i) {
-                            map[i + 15, i + 15] = 0f;
-							map[i + 15, i + 15 + 1] = 0f;
-							map[i + 15 + 1, i + 15 + 1] = 0f;
-							map[i + 15 + 1, i + 15] = 0f;
-                        }
-					 }
+                    //  else {
+					// 	 for (int i =0; i <30; ++i) {
+                    //         map[i + 15, i + 15] = 0f;
+					// 		map[i + 15, i + 15 + 1] = 0f;
+					// 		map[i + 15 + 1, i + 15 + 1] = 0f;
+					// 		map[i + 15 + 1, i + 15] = 0f;
+                    //     }
+					//  }
 					
 						
                     
 
                 }
-			} 
+			}
+
+            //DEBUG ONLYYYY!:
+            for (int i = random.Next(0, mapX - 2); i < random.Next(i, mapX - 1); ++i) {
+                map[0, i] = 1;
+                map[1, i] = 1;
+				map[2, i] = 1;
+				map[3, i] = 1;
+				map[4, i] = 1;
+            }
+			
+			for (int i = random.Next(0, mapX - 2); i < random.Next(i, mapX - 1); ++i) {
+                map[i, 0] = 1;
+				map[i, 1] = 1;
+				map[i, 2] = 1;
+				map[i, 3] = 1;
+				map[i, 4] = 1;
+            }
+			
+			for (int i = random.Next(15, mapX - 10); i < random.Next(i, mapX - 1); ++i) {
+                map[i, i] = 1;
+				map[i, i+1] = 1;
+				map[i+1, i+1] = 1;
+				map[i+1, i+2] = 1;
+				map[i+2, i+1] = 1;
+				map[i+2, i+2] = 1;
+            }
+			
+			
+
             Debug.Log("new noise, max: " + maxNoiseHeight + ", min: " + minNoiseHeight);
-			Debug.Log("normalized, max: " + maxNormalizedHeight + ", min: " + minNormalizedHeight);
+            Debug.Log("normalized, max: " + maxNormalizedHeight + ", min: " + minNormalizedHeight);
             return map;
 		}
 

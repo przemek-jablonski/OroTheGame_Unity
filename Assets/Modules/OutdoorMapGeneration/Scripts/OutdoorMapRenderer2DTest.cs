@@ -13,26 +13,33 @@ public class OutdoorMapRenderer2DTest : MonoBehaviour {
     public Texture2D DrawTexture(float[,] map, FilterMode textureFilering) {
 		// if(!isTerrainGenerated) {
             terrainTypeCoordinator = new TerrainTypeCoordinator();
-            // isTerrainGenerated = true;
+        // isTerrainGenerated = true;
         // }
-		
-        int width = map.GetLength(0);
-        int height = map.GetLength(1);
-        Texture2D texture = new Texture2D(width, height);
-        Color[] colours = new Color[width * height];
+
+        // int width = map.GetLength(0);
+        // int height = map.GetLength(1);
+        int mapDimX = map.GetLength(0);
+        int mapDimY = map.GetLength(1);
+        Texture2D texture = new Texture2D(mapDimX, mapDimY);
+        Color[] colours = new Color[mapDimX * mapDimY];
 
         // for (int i = 0; i < height; i++) {
         //     for (int j = 0; j < width; j++) {
             
-            for (int j = 0; j < width; j++) {
-                for (int i = 0; i < height; i++) {
+            // for (int j = 0; j < width; j++) {
+                // for (int i = 0; i < height; i++) {
         
+                for (int y = 0; y < mapDimY; y++) {
+                    for (int x = 0; x < mapDimX; x++) {
+                        
+                    
+                
 
                 // colours[i*width+j] = Color.Lerp(Color.black, Color.white, map[j,i]);
-                colours[i * width + j] = DrawTerrainColour(map[j, i]);
+                colours[y * mapDimX + x] = DrawTerrainColour(map[x, y]);
 
-                if (map[j, i] > 1) colours[i * width + j] = Color.red;
-                else if (map[j, i] < 0) colours[i * width + j] = Color.blue;
+                // if (map[j, i] > 1) colours[i * width + j] = Color.red;
+                // else if (map[j, i] < 0) colours[i * width + j] = Color.blue;
 
             }
         }

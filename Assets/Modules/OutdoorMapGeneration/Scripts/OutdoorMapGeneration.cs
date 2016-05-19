@@ -34,17 +34,22 @@ public class OutdoorMapGeneration : MonoBehaviour {
 
 
     public void Generate() {
+        Debug.Log("OutdoorMapGeneration.Generate()");
         renderer = FindObjectOfType<OutdoorMapRenderer2DTest>();
+        if (renderer)  Debug.Log("Renderer instantiated (not null)");
+        else           Debug.LogError("RENDERER IS NULL!");
+
         perlinNoiseTable = this.GeneratorChooser();
         texture = renderer.DrawTexture(perlinNoiseTable, textureFiltering);
-		    textureRenderer.sharedMaterial.mainTexture = texture;
-        textureRenderer.transform.localScale = new Vector3(width, 1, height);		
+		renderer.textureRenderer.sharedMaterial.mainTexture = texture;
+        renderer.textureRenderer.transform.localScale = new Vector3(mapX, 1, mapY);		
     }
 	
 	public void GenerateMesh() {
+        Debug.Log("OutdoorMapGeneration.GenerateMesh()");
         renderer.RenderMesh(
 				MeshGenerator.GenerateTerrainMesh(perlinNoiseTable),
-        		renderer.DrawTexture(perlinNoiseTable, textureFiltering));
+        		texture);
 		
     }
 	

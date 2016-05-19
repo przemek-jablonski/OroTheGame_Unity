@@ -31,7 +31,8 @@ public class TerrainType {
         terrainHeightLower = 0.0f;
 		terrainHeightUpper = 0.10f;
         terrainColorLower = new Color(0, 0, 0.65f, 1);
-		terrainColorUpper = new Color(0, 0, 1, 1);
+        terrainColorUpper = new Color(0, 0, 1, 1);
+        // terrainColorUpper = terrainColorLower = Color.blue;
         return this;
 	}
 	
@@ -40,7 +41,8 @@ public class TerrainType {
         terrainHeightLower = 0.10f;
 		terrainHeightUpper = 0.40f;
         terrainColorLower = new Color(1, 1, 0.80f, 1);
-		terrainColorUpper = new Color(1, 0.95f, 0.6f, 1);
+        terrainColorUpper = new Color(1, 0.95f, 0.6f, 1);
+        // terrainColorUpper = terrainColorLower = Color.yellow;
         return this;
 	}
 	
@@ -50,6 +52,7 @@ public class TerrainType {
 		terrainHeightUpper = 0.70f;
         terrainColorLower = new Color(0.6f, 1, 0.15f, 1);
 		terrainColorUpper = new Color(0.6f, 0.95f, 0.05f, 1);
+		// terrainColorUpper = terrainColorLower = Color.green;
         return this;
 	}
 	
@@ -59,6 +62,7 @@ public class TerrainType {
 		terrainHeightUpper = 0.90f;
         terrainColorLower = new Color(0.75f, 0.75f, 0.75f, 1);
 		terrainColorUpper = new Color(0.55f, 0.55f, 0.55f, 1);
+		// terrainColorUpper = terrainColorLower = Color.grey;
         return this;
 	}
 	
@@ -69,6 +73,7 @@ public class TerrainType {
 		terrainHeightUpper = 1;
         terrainColorLower = new Color(0.55f, 0.55f, 0.55f, 1);
         terrainColorUpper = new Color(0.20f, 0.25f, 0.20f, 1);
+		// terrainColorUpper = terrainColorLower = Color.black;
         return this;
 	}
 	

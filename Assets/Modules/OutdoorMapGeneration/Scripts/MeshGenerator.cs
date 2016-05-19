@@ -3,6 +3,9 @@
 public static class MeshGenerator {
 	
 	//mesh boundary dimensions in 2d (x,y)
+    
+    //minecraft - obczaic algorytm
+    
 	private static int mapDimensionsX;
 	private static int mapDimensionsY;
     
@@ -55,13 +58,17 @@ public static class MeshGenerator {
         
         for (int y = 0; y < mapDimensionsY; y++) {
             for (int x = 0; x < mapDimensionsX; x++) {
+                
+        // for (int y = 0; y < mapDimensionsY; y++) {
+            // for (int x = 0; x < mapDimensionsX; x++) {
+                
 
-                customMesh.arrayVertices[index] = new Vector3(leftUpperCornerX + x, heightMap[x, y] * 600f, leftUpperCornerZ - y);
+                customMesh.arrayVertices[index] = new Vector3(leftUpperCornerX + x, heightMap[x, y] * 10f, leftUpperCornerZ - y);
                 customMesh.arrayUVs[index] = new Vector2(x / (float)mapDimensionsX, x / (float)mapDimensionsY);
                 
                 if (x < mapDimensionsX -1 && y < mapDimensionsY - 1) {
-                    customMesh.addTriangle(index, index + mapDimensionsX + 1, index + mapDimensionsX);
-                    customMesh.addTriangle(index + mapDimensionsX + 1, index, index + 1);
+                    customMesh.addTriangle(index, index + mapDimensionsY + 1, index + mapDimensionsY);
+                    customMesh.addTriangle(index + mapDimensionsY + 1, index, index + 1);
                 }
 
                 ++index;
