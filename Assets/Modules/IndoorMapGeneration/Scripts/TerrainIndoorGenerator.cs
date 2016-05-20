@@ -22,6 +22,9 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 
 
 	//todo: logic module shouldnt be here i suppose?
+	//terrain values:
+	//	true - for obstacle
+	//	false - for open space (free to roam for the player)
 	bool[,] terrain;
 	System.Random random;
 
@@ -37,12 +40,14 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 
 		CreateMap();
 		FillMapRandom();
-	}
+
+    }
 
 	public void Update() {
-		if (Input.anyKey) {
-		      CellularAutomataIteration();
-		}
+		if (Input.GetMouseButtonDown(0)) {
+            Debug.Log("mouse button 0 down");
+            CellularAutomataIteration();
+        }
 	}
 
 	private void CreateMap() {
@@ -71,8 +76,66 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 	}
 
 	private void CellularAutomataIteration() {
-
+		for (int x = 0; x < terrainWidthX; x++) {
+			for (int y = 0; y < terrainDepthY; y++) {
+				
+				if (CheckNeighbours(1, x, y) > 4) {
+					terrain[x, y] = true;
+				}
+				if (CheckNeighbours(1, x, y) < 3) {
+                    terrain[x, y] = false;
+                }
+				
+			}
+		}
 	}
+	
+	
+	
+	private int CheckNeighbours(int coordX, int coordY) {
+        return CheckNeighbours(1, coordX, coordY);
+    }
+	
+	private int CheckNeighbours(int level, int coordX, int coordY) {	
+		if (level == 2) {
+            return CheckNeighboursLevel2(coordX, coordY);
+        }
+        return CheckNeighboursLevel1(coordX, coordY);
+    }
+	
+	private int CheckNeighboursLevel1(int coordX, int coordY) {
+        int neighbours = 0;
+		
+        for (int x = coordX-1; x < coordX+1; ++x) {
+			for (int y = coordY-1; y < coordY+1; ++y) {
+				if (x == coordX && y == coordY) { break; }
+				if (CheckNeighbour(coordX, coordY)) { ++neighbours; }
+			}
+		}
+
+        return neighbours;
+    }
+
+	private int CheckNeighboursLevel2(int coordX, int coordY) {
+        int neighbours = 0;
+		
+		for (int x = coordX - 2; x < coordX + 2; x++) {
+			for (int y = coordY - 2; y < coordY + 2; y++) {	
+                if (x == coordX && y == coordY) { break; }
+                if (CheckNeighbour(coordX, coordY)) { ++neighbours; }
+			}
+		}
+
+        return neighbours;
+    }
+	
+	private bool CheckNeighbour(int coordX, int coordY) {
+		if (coordX <= 0 || coordY <= 0) {
+            return true;
+        }
+		return terrain[coordX, coordY];
+    }
+
 
 
 	private void RandomizeSeed() {
