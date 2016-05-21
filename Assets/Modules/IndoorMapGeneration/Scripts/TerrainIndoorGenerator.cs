@@ -17,7 +17,10 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 	public float  	 fillPercent = 0.45f;
 
 	public int    	iterationCount = 4;
-	public string 	randomSeed = "sample seed";
+    // public bool 	useCustomRules = false;
+	// public int 		
+
+    public string 	randomSeed = "sample seed";
 	public bool 	randomizeSeed = true;
 
     public GameObject debugBox;
@@ -27,11 +30,11 @@ public class TerrainIndoorGenerator : MonoBehaviour {
     //todo: logic module shouldnt be here i suppose?
 
 
-    //terrain values:
-    //	true - for obstacle
-    //	false - for open space (free to roam for the player)
-    bool[,] 		obstacleMap;
-	System.Random 	random;
+    //traversableMap - terrain values:
+    //	true - for traversable terrain (by the player)
+    //	false - for walls and other non-traversable spaces
+    private bool[,] 		traversableMap;
+	private System.Random 	random;
 
 
 	//todo: refactor to be able to generate terrain inside editor as well as in-game
@@ -46,9 +49,9 @@ public class TerrainIndoorGenerator : MonoBehaviour {
         CreateMap();
         DestroyChildren();
         FillMapRandom();
-        for (int i = 0; i < iterationCount; i++){
-        	CellularAutomataIteration();
-        }
+        // for (int i = 0; i < iterationCount; i++){
+        // 	CellularAutomataIteration();
+        // }
 
 		//debug 'drawing':
         CreatePlane();
@@ -58,22 +61,28 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 	public void Update() {
 		if (Input.GetMouseButtonDown(0)) {
             Debug.Log("mouse button 0 down");
-            // CellularAutomataIteration();
-            Start();
+            CellularAutomataIteration();
+            DestroyChildren();
+            CreatePlane();
+            CreateBoxes();
         }
+		if (Input.GetMouseButtonDown(1)) {
+			Debug.Log("mouse button 1 down");
+			Start();
+		}
 	}
 
 	private void CreateMap() {
-		obstacleMap = new bool[terrainWidthX, terrainDepthY];
+		traversableMap = new bool[terrainWidthX, terrainDepthY];
 	}
 
 	private void FillMapRandom() { 
 		for (int x = 0; x < terrainWidthX; x++) {
 		      for (int y = 0; y < terrainDepthY; y++) {
 				if (x == 0 || y == 0 || x == terrainWidthX - 1 || y == terrainDepthY - 1) {
-					obstacleMap [x, y] = true;
+					traversableMap [x, y] = false;
 				} else {
-					obstacleMap [x, y] = Utils.randomBool (fillPercent);
+					traversableMap [x, y] = !Utils.randomBool(fillPercent);
 				}
 		    }
 		}
@@ -88,56 +97,104 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 
 
 	private void CellularAutomataIteration() {
-		for (int x = 0; x < terrainWidthX; x++) {
-			for (int y = 0; y < terrainDepthY; y++) {
+        int neighbours;
+        for (int x = 0; x < terrainWidthX; ++x) {
+			for (int y = 0; y < terrainDepthY; ++y) {
 				
-				if (CheckNeighboursLevel1(x, y) > 4) {
-					obstacleMap[x, y] = true;
+				if (x == 0 || y == 0 || x == terrainWidthX-1 || y == terrainDepthY - 1) {
+                    traversableMap[x, y] = false;
+                } else {
+					// CellularAutomataRulesClassic(x, y, CheckTraversableNeighboursLevel1(x, y));
+					CellularAutomataRulesCustom(x, y, CheckTraversableNeighboursLevel1(x, y));	
 				}
-				if (CheckNeighboursLevel1(x, y) < 3) {
-                    obstacleMap[x, y] = false;
+
+            }
+		}
+	}
+	
+	
+	//USE DELEGATE HERE AND INVOKE JUST CELLULARAUTOMATARULES() FROM CELLULARAUTOMATAITERATION() METHOD.
+	private void CellularAutomataRulesClassic(int coordX, int coordY, int neighbours) {
+		//CLASSIC RULES FROM CONWAY'S GAME OF LIFE 
+		//if we are looking at a cell that is traversable
+		if(traversableMap[coordX, coordY] == true) {
+			
+            if (neighbours < 2 || neighbours > 3) 
+                traversableMap[coordX, coordY] = false;
+			
+        } else {
+			//if we are looking at a cell that is not traversable
+            if (neighbours == 3) 
+                traversableMap[coordX, coordY] = true;
+        }
+    }
+	
+	
+	private void CellularAutomataRulesCustom(int coordX, int coordY, int neighbours) {
+		//CUSTOM RULES
+		//if we are looking at a cell that is traversable (alive)
+		if(traversableMap[coordX, coordY] == true) {
+			
+            if (neighbours <= 3) 
+                traversableMap[coordX, coordY] = false;
+			
+        } else {
+			//if we are looking at a cell that is not traversable (dead)
+            if (neighbours > 5) 
+                traversableMap[coordX, coordY] = true;
+        }
+	}
+	
+	private void CellularAutomataRulesInspector(int coordX, int coordY, int neighbours) {
+		
+	}
+
+	
+	private int CheckTraversableNeighboursLevel1(int coordX, int coordY) {
+        int neighbours = 0;
+        for (int x = coordX-1; x <= coordX+1; ++x) {
+			for (int y = coordY-1; y <= coordY+1; ++y) {
+				if (x == coordX && y == coordY) { 
+					continue; 
+				}
+				if (CheckTraversableNeighbour(x,y) == true) {
+                    ++neighbours;
                 }
 				
 			}
 		}
-	}
-
-	
-	private int CheckNeighboursLevel1(int coordX, int coordY) {
-        int neighbours = 0;
-		
-        for (int x = coordX-1; x < coordX+1; ++x) {
-			for (int y = coordY-1; y < coordY+1; ++y) {
-				if (x == coordX && y == coordY) { break; }
-				if (CheckNeighbour(coordX, coordY)) { ++neighbours; }
-			}
-		}
-
         return neighbours;
     }
 	
 
-	private int CheckNeighboursLevel2(int coordX, int coordY) {
-        int neighbours = 0;
+	// private int CheckDeadNeighboursLevel2(int coordX, int coordY) {
+    //     int neighbours = 0;
 		
-		for (int x = coordX - 2; x < coordX + 2; x++) {
-			for (int y = coordY - 2; y < coordY + 2; y++) {	
-                if (x == coordX && y == coordY) { break; }
-                if (CheckNeighbour(coordX, coordY)) { ++neighbours; }
-			}
-		}
+	// 	for (int x = coordX - 2; x < coordX + 2; x++) {
+	// 		for (int y = coordY - 2; y < coordY + 2; y++) {	
+    //             if (x == coordX && y == coordY) { continue; }
+    //             if (CheckDeadNeighbour(coordX, coordY)) { ++neighbours; }
+	// 		}
+	// 	}
 
-        return neighbours;
-    }
+    //     return neighbours;
+    // }
 	
 	
-	private bool CheckNeighbour(int coordX, int coordY) {
-		if (coordX <= 0 || coordY <= 0) {
-            return true;
+	// private bool CheckDeadNeighbour(int coordX, int coordY) {
+	// 	if (coordX <= 0 || coordY <= 0 || coordX >= terrainWidthX || coordY >= terrainDepthY) {
+    //         return true;
+    //     }
+	// 	return obstacleMap[coordX, coordY];
+    // }
+
+	private bool CheckTraversableNeighbour(int coordX, int coordY) {
+		if (coordX <= 0 || coordY <= 0 || coordX >= terrainWidthX || coordY >= terrainDepthY) {
+            return false;
         }
-		return obstacleMap[coordX, coordY];
-    }
 
+        return traversableMap[coordX, coordY];
+    }
 
 
 	private void RandomizeSeed() {
@@ -147,12 +204,16 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 	public void OnValidate() {
 		if (terrainWidthX < 10)
 		    terrainWidthX = 10;
+			
 		if (terrainDepthY < 10)
 			terrainDepthY = 10;
+			
 		if (terrainHeightZ != 1)
 		    terrainHeightZ = 1;
+			
 		if (iterationCount < 1)
 		    iterationCount = 1;
+			
 		if (randomSeed == string.Empty)
 		    randomSeed = "sample seed";
 	}
@@ -165,7 +226,7 @@ public class TerrainIndoorGenerator : MonoBehaviour {
             column.transform.parent = this.transform;
             column.name = "column: " + x;
             for (int y = 0; y < terrainDepthY; y++) {
-				if (obstacleMap[x,y] == true) {
+				if (traversableMap[x,y] == false) {
                     UnityEngine.Object box = Instantiate(debugBox, new Vector3(x - terrainWidthX/2, 0, y - terrainDepthY/2), Quaternion.identity);
                     ((GameObject)box).transform.parent = column.transform;
                     ((GameObject)box).name = "[" + x + "], [" + y + "]";
