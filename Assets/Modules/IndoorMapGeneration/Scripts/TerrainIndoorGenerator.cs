@@ -13,58 +13,85 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 	//max value of total z coordinates
 	public int 		terrainHeightZ = 1;
 
-	[RangeAttribute(0, 1)]
-	public float  	 fillPercent = 0.45f;
+    // [RangeAttribute(0, 1)]
+    // public float  	 fillPercent = 0.45f;
 
-	public int    	iterationCount = 4;
+    // public int    	iterationCount = 4;
     // public bool 	useCustomRules = false;
-	// public int 		
+    // public int 		
 
-    public string 	randomSeed = "sample seed";
-	public bool 	randomizeSeed = true;
+    // public string 	randomSeed = "sample seed";
+    // public bool 	randomizeSeed = true;
 
-    public GameObject debugBox;
-    public GameObject debugFloorPlane;
+    private MapGenerator mapGenerator;
+    private MockMapRenderer mockMapRenderer;
+    private bool[,] map;
 
 
     //todo: logic module shouldnt be here i suppose?
 
-
-    //traversableMap - terrain values:
-    //	true - for traversable terrain (by the player)
-    //	false - for walls and other non-traversable spaces
-    private bool[,] 		traversableMap;
-	private System.Random 	random;
+    // private bool[,] 		traversableMap;
+    // private System.Random 	random;
 
 
-	//todo: refactor to be able to generate terrain inside editor as well as in-game
+    //todo: refactor to be able to generate terrain inside editor as well as in-game
 
 
-	public void Start() {
-		random = new System.Random(randomSeed.GetHashCode());
-		if (randomizeSeed) { 
-			RandomizeSeed();
-		}
+	public TerrainIndoorGenerator() {
+		if (mapGenerator == null)
+        	mapGenerator = gameObject.AddComponent<MapGenerator>();
+		if (mockMapRenderer == null)
+        	mockMapRenderer = gameObject.AddComponent<MockMapRenderer>();
+    }
 
-        CreateMap();
-        DestroyChildren();
-        FillMapRandom();
+    public void Start() {
+        // random = new System.Random(randomSeed.GetHashCode());
+        // if (randomizeSeed) { 
+        // 	RandomizeSeed();
+        // }
+
+        // CreateMap();
+        // DestroyChildren();
+        // FillMapRandom();
         // for (int i = 0; i < iterationCount; i++){
         // 	CellularAutomataIteration();
         // }
 
-		//debug 'drawing':
-        CreatePlane();
-        CreateBoxes();
+        //debug 'drawing':
+        // CreatePlane();
+        // CreateBoxes();
+
+
+        //todo: create this at the moment of attaching script to object,
+        //		not on game start!
+        //		maybe in constructor?
+
+        // mapGenerator = gameObject.AddComponent<MapGenerator>();
+        // mockMapRenderer = gameObject.AddComponent<MockMapRenderer>();
+
+        DestroyChildren();
+        mapGenerator = GetComponent<MapGenerator>();
+        mockMapRenderer = GetComponent<MockMapRenderer>();
+
+        mapGenerator.UpdateTerrainDimensions(terrainWidthX, terrainDepthY);
+        map = mapGenerator.GenerateMap();
+		mockMapRenderer.CreatePlane(terrainWidthX, terrainDepthY);
+        mockMapRenderer.CreateBoxes(map, terrainWidthX, terrainDepthY);
     }
 
 	public void Update() {
 		if (Input.GetMouseButtonDown(0)) {
             Debug.Log("mouse button 0 down");
-            CellularAutomataIteration();
+			
             DestroyChildren();
-            CreatePlane();
-            CreateBoxes();
+			mapGenerator.UpdateTerrainDimensions(terrainWidthX, terrainDepthY);
+            map = mapGenerator.IterateMap(1);
+            mockMapRenderer.CreatePlane(terrainWidthX, terrainDepthY);
+			mockMapRenderer.CreateBoxes(map, terrainWidthX, terrainDepthY);
+            // CellularAutomataIteration();
+            // DestroyChildren();
+            // CreatePlane();
+            // CreateBoxes();
         }
 		if (Input.GetMouseButtonDown(1)) {
 			Debug.Log("mouse button 1 down");
@@ -72,99 +99,104 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 		}
 	}
 
-	private void CreateMap() {
-		traversableMap = new bool[terrainWidthX, terrainDepthY];
+
+	
+	
+	private void DestroyChildren() {
+		foreach (Transform child in this.transform) {
+            Destroy(child.gameObject);
+        }
 	}
+	
+	
 
-	private void FillMapRandom() { 
-		for (int x = 0; x < terrainWidthX; x++) {
-		      for (int y = 0; y < terrainDepthY; y++) {
-				if (x == 0 || y == 0 || x == terrainWidthX - 1 || y == terrainDepthY - 1) {
-					traversableMap [x, y] = false;
-				} else {
-					traversableMap [x, y] = !Utils.randomBool(fillPercent);
-				}
-		    }
-		}
+	// private void FillMapRandom() { 
+	// 	for (int x = 0; x < terrainWidthX; x++) {
+	// 	      for (int y = 0; y < terrainDepthY; y++) {
+	// 			if (x == 0 || y == 0 || x == terrainWidthX - 1 || y == terrainDepthY - 1) {
+	// 				traversableMap [x, y] = false;
+	// 			} else {
+	// 				traversableMap [x, y] = !Utils.randomBool(fillPercent);
+	// 			}
+	// 	    }
+	// 	}
 
-	}
-
-
-	private void FillMapPerlinNoise() {/**...*/}
-
-	private void FillMapSimplex() {/**...*/}
+	// }
 
 
 
-	private void CellularAutomataIteration() {
-        int neighbours;
-        for (int x = 0; x < terrainWidthX; ++x) {
-			for (int y = 0; y < terrainDepthY; ++y) {
+
+	// private void CellularAutomataIteration() {
+    //     int neighbours;
+    //     for (int x = 0; x < terrainWidthX; ++x) {
+	// 		for (int y = 0; y < terrainDepthY; ++y) {
 				
-				if (x == 0 || y == 0 || x == terrainWidthX-1 || y == terrainDepthY - 1) {
-                    traversableMap[x, y] = false;
-                } else {
-					// CellularAutomataRulesClassic(x, y, CheckTraversableNeighboursLevel1(x, y));
-					CellularAutomataRulesCustom(x, y, CheckTraversableNeighboursLevel1(x, y));	
-				}
+	// 			if (x == 0 || y == 0 || x == terrainWidthX-1 || y == terrainDepthY - 1) {
+    //                 traversableMap[x, y] = false;
+    //             } else {
+	// 				// CellularAutomataRulesClassic(x, y, CheckTraversableNeighboursLevel1(x, y));
+	// 				CellularAutomataRulesCustom(x, y, CheckTraversableNeighboursLevel1(x, y));	
+	// 			}
 
-            }
-		}
-	}
+    //         }
+	// 	}
+	// }
 	
 	
 	//USE DELEGATE HERE AND INVOKE JUST CELLULARAUTOMATARULES() FROM CELLULARAUTOMATAITERATION() METHOD.
-	private void CellularAutomataRulesClassic(int coordX, int coordY, int neighbours) {
-		//CLASSIC RULES FROM CONWAY'S GAME OF LIFE 
-		//if we are looking at a cell that is traversable
-		if(traversableMap[coordX, coordY] == true) {
-			
-            if (neighbours < 2 || neighbours > 3) 
-                traversableMap[coordX, coordY] = false;
-			
-        } else {
-			//if we are looking at a cell that is not traversable
-            if (neighbours == 3) 
-                traversableMap[coordX, coordY] = true;
-        }
-    }
 	
 	
-	private void CellularAutomataRulesCustom(int coordX, int coordY, int neighbours) {
-		//CUSTOM RULES
-		//if we are looking at a cell that is traversable (alive)
-		if(traversableMap[coordX, coordY] == true) {
+	// private void CellularAutomataRulesClassic(int coordX, int coordY, int neighbours) {
+	// 	//CLASSIC RULES FROM CONWAY'S GAME OF LIFE 
+	// 	//if we are looking at a cell that is traversable
+	// 	if(traversableMap[coordX, coordY] == true) {
 			
-            if (neighbours <= 3) 
-                traversableMap[coordX, coordY] = false;
+    //         if (neighbours < 2 || neighbours > 3) 
+    //             traversableMap[coordX, coordY] = false;
 			
-        } else {
-			//if we are looking at a cell that is not traversable (dead)
-            if (neighbours > 5) 
-                traversableMap[coordX, coordY] = true;
-        }
-	}
+    //     } else {
+	// 		//if we are looking at a cell that is not traversable
+    //         if (neighbours == 3) 
+    //             traversableMap[coordX, coordY] = true;
+    //     }
+    // }
+	
+	
+	// private void CellularAutomataRulesCustom(int coordX, int coordY, int neighbours) {
+	// 	//CUSTOM RULES
+	// 	//if we are looking at a cell that is traversable (alive)
+	// 	if(traversableMap[coordX, coordY] == true) {
+			
+    //         if (neighbours <= 3) 
+    //             traversableMap[coordX, coordY] = false;
+			
+    //     } else {
+	// 		//if we are looking at a cell that is not traversable (dead)
+    //         if (neighbours > 5) 
+    //             traversableMap[coordX, coordY] = true;
+    //     }
+	// }
 	
 	private void CellularAutomataRulesInspector(int coordX, int coordY, int neighbours) {
 		
 	}
 
 	
-	private int CheckTraversableNeighboursLevel1(int coordX, int coordY) {
-        int neighbours = 0;
-        for (int x = coordX-1; x <= coordX+1; ++x) {
-			for (int y = coordY-1; y <= coordY+1; ++y) {
-				if (x == coordX && y == coordY) { 
-					continue; 
-				}
-				if (CheckTraversableNeighbour(x,y) == true) {
-                    ++neighbours;
-                }
+	// private int CheckTraversableNeighboursLevel1(int coordX, int coordY) {
+    //     int neighbours = 0;
+    //     for (int x = coordX-1; x <= coordX+1; ++x) {
+	// 		for (int y = coordY-1; y <= coordY+1; ++y) {
+	// 			if (x == coordX && y == coordY) { 
+	// 				continue; 
+	// 			}
+	// 			if (CheckTraversableNeighbour(x,y) == true) {
+    //                 ++neighbours;
+    //             }
 				
-			}
-		}
-        return neighbours;
-    }
+	// 		}
+	// 	}
+    //     return neighbours;
+    // }
 	
 
 	// private int CheckDeadNeighboursLevel2(int coordX, int coordY) {
@@ -188,18 +220,18 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 	// 	return obstacleMap[coordX, coordY];
     // }
 
-	private bool CheckTraversableNeighbour(int coordX, int coordY) {
-		if (coordX <= 0 || coordY <= 0 || coordX >= terrainWidthX || coordY >= terrainDepthY) {
-            return false;
-        }
+	// private bool CheckTraversableNeighbour(int coordX, int coordY) {
+	// 	if (coordX <= 0 || coordY <= 0 || coordX >= terrainWidthX || coordY >= terrainDepthY) {
+    //         return false;
+    //     }
 
-        return traversableMap[coordX, coordY];
-    }
+    //     return traversableMap[coordX, coordY];
+    // }
 
 
-	private void RandomizeSeed() {
-		randomSeed = (DateTime.Now.Ticks * (UnityEngine.Random.value +1)).ToString();
-	}
+	// private void RandomizeSeed() {
+	// 	randomSeed = (DateTime.Now.Ticks * (UnityEngine.Random.value +1)).ToString();
+	// }
 
 	public void OnValidate() {
 		if (terrainWidthX < 10)
@@ -211,41 +243,38 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 		if (terrainHeightZ != 1)
 		    terrainHeightZ = 1;
 			
-		if (iterationCount < 1)
-		    iterationCount = 1;
+		// if (iterationCount < 1)
+		//     iterationCount = 1;
 			
-		if (randomSeed == string.Empty)
-		    randomSeed = "sample seed";
+		// if (randomSeed == string.Empty)
+		//     randomSeed = "sample seed";
 	}
 	
-	private void CreateBoxes() {
-        GameObject column;
+	
+	
+	// private void CreateBoxes() {
+    //     GameObject column;
+    //     for (int x = 0; x < terrainWidthX; x++) {
+    //         column = new GameObject();
+    //         column.transform.parent = this.transform;
+    //         column.name = "column: " + x;
+    //         for (int y = 0; y < terrainDepthY; y++) {
+	// 			if (traversableMap[x,y] == false) {
+    //                 UnityEngine.Object box = Instantiate(debugBox, new Vector3(x - terrainWidthX/2, 0, y - terrainDepthY/2), Quaternion.identity);
+    //                 ((GameObject)box).transform.parent = column.transform;
+    //                 ((GameObject)box).name = "[" + x + "], [" + y + "]";
+    //             }
+	// 		}
+	// 	}
+	// }
+	
+	// private void CreatePlane() {
+	// 	GameObject plane = (GameObject) Instantiate(debugFloorPlane, new Vector3(0f, -0.5f, 0f), Quaternion.identity);
+    //     plane.transform.parent = this.transform;
+    //     plane.transform.localScale = new Vector3(terrainWidthX/10f, 1, terrainDepthY/10f);
+    // }
+	
 
-        for (int x = 0; x < terrainWidthX; x++) {
-            column = new GameObject();
-            column.transform.parent = this.transform;
-            column.name = "column: " + x;
-            for (int y = 0; y < terrainDepthY; y++) {
-				if (traversableMap[x,y] == false) {
-                    UnityEngine.Object box = Instantiate(debugBox, new Vector3(x - terrainWidthX/2, 0, y - terrainDepthY/2), Quaternion.identity);
-                    ((GameObject)box).transform.parent = column.transform;
-                    ((GameObject)box).name = "[" + x + "], [" + y + "]";
-                }
-			}
-		}
-	}
-	
-	private void CreatePlane() {
-		GameObject plane = (GameObject) Instantiate(debugFloorPlane, new Vector3(0f, -0.5f, 0f), Quaternion.identity);
-        plane.transform.parent = this.transform;
-        plane.transform.localScale = new Vector3(terrainWidthX/10f, 1, terrainDepthY/10f);
-    }
-	
-	private void DestroyChildren() {
-		foreach (Transform child in this.transform) {
-            Destroy(child.gameObject);
-        }
-	}
 
 	// void OnDrawGizmos() {
 	// 	//todo: exception here instead of this null check?

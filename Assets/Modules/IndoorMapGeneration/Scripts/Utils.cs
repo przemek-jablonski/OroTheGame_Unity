@@ -29,6 +29,10 @@ namespace AssemblyCSharp {
 				return true;
 			return false;
 		}
+		
+		public static String randomSeedString() {
+            return (DateTime.Now.Ticks * (UnityEngine.Random.value + 1)).ToString();
+        }
 
 	}
 
