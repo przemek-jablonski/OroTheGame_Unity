@@ -23,8 +23,8 @@ public class TerrainIndoorGenerator : MonoBehaviour {
     // public string 	randomSeed = "sample seed";
     // public bool 	randomizeSeed = true;
 
-    private MapGenerator mapGenerator;
-    private MockMapRenderer mockMapRenderer;
+    public MapGenerator mapGenerator;
+    public MockMapRenderer mockMapRenderer;
     private bool[,] map;
 
 
@@ -38,10 +38,10 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 
 
 	public TerrainIndoorGenerator() {
-		if (mapGenerator == null)
-        	mapGenerator = gameObject.AddComponent<MapGenerator>();
-		if (mockMapRenderer == null)
-        	mockMapRenderer = gameObject.AddComponent<MockMapRenderer>();
+		// if (mapGenerator == null)
+        // 	mapGenerator = gameObject.AddComponent<MapGenerator>();
+		// if (mockMapRenderer == null)
+        // 	mockMapRenderer = gameObject.AddComponent<MockMapRenderer>();
     }
 
     public void Start() {
