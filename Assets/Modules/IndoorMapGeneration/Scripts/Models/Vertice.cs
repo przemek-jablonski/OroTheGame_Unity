@@ -8,6 +8,7 @@ public class Vertice {
     private bool traversable;
     private readonly int indexX;
 	private readonly int indexY;
+    private int vertexIndex;
     private Vector3 position { set; get; }
 	
 	public Vertice(bool traversable, int indexX, int indexY, float positionX, float positionY, float positionZ) {
@@ -23,6 +24,10 @@ public class Vertice {
         this.indexY = indexY;
         this.position = position;
     }
+	
+	public void SetVertexIndex(int vertexIndex) {
+        this.vertexIndex = vertexIndex;
+    }
 
 	public bool IsTraversable() {
         return traversable;
@@ -30,6 +35,10 @@ public class Vertice {
 	
 	public Vector3 GetPosition() {
         return position;
+    }
+	
+	public int GetVertexIndex() {
+        return vertexIndex;
     }
 
 }
