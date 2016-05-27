@@ -50,8 +50,6 @@ public class MapGenerator : MonoBehaviour {
         return traversableMap;
     }
 
-
-
 	private void InstantiateMap() {
         traversableMap = new bool[terrainWidthX, terrainDepthY];
     }
@@ -70,7 +68,6 @@ public class MapGenerator : MonoBehaviour {
 
 	private void FillMapSimplex() {/**...*/}
 
-	
 	private void CellularAutomataIteration() {
         for (int x = 0; x < terrainWidthX; ++x) {
 			for (int y = 0; y < terrainDepthY; ++y) {				
@@ -99,9 +96,7 @@ public class MapGenerator : MonoBehaviour {
 			}
 		}
         return neighbours;
-    }
-	
-	
+    }	
 	
 	private bool CheckTraversableNeighbour(int coordX, int coordY) {
 		if (coordX <= 0 || coordY <= 0 || coordX >= terrainWidthX || coordY >= terrainDepthY) {
@@ -110,7 +105,9 @@ public class MapGenerator : MonoBehaviour {
         return traversableMap[coordX, coordY];
     }
 
-	
+
+    //USE DELEGATE HERE AND INVOKE JUST CELLULARAUTOMATARULES() FROM CELLULARAUTOMATAITERATION() METHOD.
+
 	private void CellularAutomataRulesClassic(int coordX, int coordY, int neighbours) {
 		//CLASSIC RULES FROM CONWAY'S GAME OF LIFE 
 		//if we are looking at a cell that is traversable
@@ -123,7 +120,6 @@ public class MapGenerator : MonoBehaviour {
                 traversableMap[coordX, coordY] = true;
         }
     }
-	
 	
 	private void CellularAutomataRulesCustom(int coordX, int coordY, int neighbours) {
 		//CUSTOM RULES
@@ -138,6 +134,9 @@ public class MapGenerator : MonoBehaviour {
         }
 	}
 	
+	private void CellularAutomataRulesInspector(int coordX, int coordY, int neighbours) {
+		
+	}
 	
 	
     public bool[,] GetTraversableMap() {

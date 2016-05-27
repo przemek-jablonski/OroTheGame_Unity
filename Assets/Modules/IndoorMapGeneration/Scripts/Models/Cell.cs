@@ -35,8 +35,9 @@ public class Cell {
 		vertices[3] = vBottomRight;
 	}
 	
-	public Vertice getVertice(int index) {
-        return vertices[index];
+	
+	public Vertice getVertice(int standardIndexing) {
+        return vertices[standardIndexing-1];
     }
 	
 	public Vertice[] getVertices() {
