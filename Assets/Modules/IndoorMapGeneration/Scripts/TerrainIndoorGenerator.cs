@@ -37,9 +37,10 @@ public class TerrainIndoorGenerator : MonoBehaviour {
 
         mapGenerator.UpdateTerrainDimensions(terrainWidthX, terrainDepthY);
         map = mapGenerator.GenerateMap();
-        meshGenerator.generateMesh(map);
+        
         // mockMapRenderer.CreatePlane(terrainWidthX, terrainDepthY);
         // mockMapRenderer.CreateBoxes(map, terrainWidthX, terrainDepthY);
+		meshGenerator.generateMesh(map);
     }
 
 	public void Update() {
@@ -49,10 +50,10 @@ public class TerrainIndoorGenerator : MonoBehaviour {
             DestroyChildren();
 			mapGenerator.UpdateTerrainDimensions(terrainWidthX, terrainDepthY);
             map = mapGenerator.IterateMap(1);
-			meshGenerator.generateMesh(map);
+			
             // mockMapRenderer.CreatePlane(terrainWidthX, terrainDepthY);
 			// mockMapRenderer.CreateBoxes(map, terrainWidthX, terrainDepthY);
-
+			meshGenerator.generateMesh(map);
         }
 		if (Input.GetMouseButtonDown(1)) {
 			Debug.Log("mouse button 1 down");

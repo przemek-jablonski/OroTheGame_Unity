@@ -36,8 +36,13 @@ public class Cell {
 	}
 	
 	
+	//fix that, there should be only one getter for specific vertice
 	public Vertice getVertice(int standardIndexing) {
         return vertices[standardIndexing-1];
+    }
+	
+	public Vertice GetVerticeZero(int index) {
+        return vertices[index];
     }
 	
 	public Vertice[] getVertices() {

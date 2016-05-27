@@ -15,7 +15,7 @@ public class Grid {
 		for (int x = 0; x < cellsWidthX; ++x) {
 			for (int y = 0; y < cellsDepthY; ++y) {
                 Vector3 position = new Vector3(-cellsWidthX/2 + x, 0, -cellsDepthY + y);
-                vertices[x, y] = new Vertice(randomizedMap[x,y], x, y, position);
+                vertices[x, y] = new Vertice(randomizedMap[x,y] == true, x, y, position);
          	}
     	}
 
@@ -26,8 +26,8 @@ public class Grid {
                 cells[x, y] = new Cell(
 					vertices[x,y+1],
 					vertices[x+1, y+1],
-					vertices[x+1, y],
-					vertices[x,y]
+					vertices[x,y],
+					vertices[x+1, y]
 					);
             }
 		}

@@ -34,8 +34,31 @@ namespace OroIndoorMapGeneratorModule
         }
 		
 		private void CreateTriangles(Cell cell) {
-            AssignVertices(cell.getVertices());
-            MeshFromPoints(cell.getVertice(1), cell.getVertice(2), cell.getVertice(3), cell.getVertice(4));
+            int nonTraversableNodes = 0;
+            for (int c = 0; c < cell.getVertices().Length; c++) 
+				if (cell.getVertice(c+1).IsTraversable() == false)
+                    ++nonTraversableNodes;
+            
+			
+			if (nonTraversableNodes == 4) {
+                AssignVertices(cell.getVertices());
+                MeshFromPoints(cell.getVertice(1), cell.getVertice(2), cell.getVertice(3), cell.getVertice(4));
+                return;
+            }
+			
+			if (nonTraversableNodes == 3) {
+				for (int i=0; i < 4; ++i) {
+					if (cell.getVertice((i)%4 + 1).IsTraversable() == false
+						&& cell.getVertice((i+1)%4 + 1).IsTraversable() == false
+						&& cell.getVertice((i+2)%4 + 1).IsTraversable() == false) {
+							AssignVertices(cell.getVertice((i)%4 + 1), cell.getVertice((i+1)%4 + 1), cell.getVertice((i+2)%4 + 1));
+                			MeshFromPoints(cell.getVertice((i)%4 + 1), cell.getVertice((i+1)%4 + 1), cell.getVertice((i+2)%4 + 1));
+						}
+				}
+                return;
+            }
+			
+            
         }
 		
 		private void AssignVertices(params Vertice[] verts) {
@@ -47,8 +70,15 @@ namespace OroIndoorMapGeneratorModule
         }
 		
 		private void MeshFromPoints(params Vertice[] verts) {
-            CreateTriangle(verts[0], verts[1], verts[3]);
-            CreateTriangle(verts[0], verts[3], verts[2]);
+            // CreateTriangle(verts[0], verts[1], verts[3]);
+            // CreateTriangle(verts[0], verts[3], verts[2]);
+            if (verts.Length == 4) {
+                CreateTriangle(verts[0], verts[1], verts[2]);
+                CreateTriangle(verts[1], verts[3], verts[2]);
+                return;
+            }
+
+            CreateTriangle(verts[0], verts[1], verts[2]);
         }
 		
 		private void CreateTriangle(Vertice vA, Vertice vB, Vertice vC) {
